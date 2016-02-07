@@ -1,6 +1,6 @@
 # Blog A
 
-A blog app written in Python 3.x.
+A simple blog app written in Python 3.x.
 
 折腾了几天 Python，暂且弄出这个简易的博客……
 
@@ -15,6 +15,6 @@ title: Article Title
 
 and run:
 
-```py
+```python
 python3 app.py
 ```
