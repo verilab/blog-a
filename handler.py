@@ -27,7 +27,7 @@ render_md = misaka.Markdown(renderer,
 
 
 def read_md_file(file_path):
-    with open(file_path, 'r') as stream:
+    with open(file_path, 'r', encoding='utf-8') as stream:
         content = stream.read().split('\n\n', 1)
     return content
 
