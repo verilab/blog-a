@@ -1,0 +1,42 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+}
+
+.main {
+    padding-top: 30px;
+    padding-bottom: 100px;
+}
+
+.footer {
+    color: #666;
+    height: 40px;
+    width: 100%;;
+    font-size: 12px;
+    text-align: center;
+    position: absolute;
+    bottom: 40px;
+    display: block;
+}
+
+.footer p {
+    display: inline;
+}
+
+@media screen and (min-width: 600px) {
+    .main {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .main {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+
+<title>{{ info.title }}</title>
+
+{% endblock %}
+
+{% block body %}
+
+<ul>
+    {% for entry in info.entries %}
+    <li>[{{ entry.date }}] <a href="{{ entry.url }}">{{ entry.title }}</a></li>
+    {% else %}
+    <li>No entry.</li>
+    {% endfor %}
+</ul>
+
+{% if info.has_older %}
+<a href="{{ info.older_url }}">Older</a>
+{% endif %}
+
+{% if info.has_newer %}
+<a href="{{ info.newer_url }}">Newer</a>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+
+<title>{{ article.nav_title }}</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheets/code.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+<div class="markdown-body">
+    <h1>{{ article.title }}</h1>
+
+    {% if article.last_update %}
+    <p>最后更新: {{ article.last_update }}</p>
+    {% endif %}
+
+    {{ article.body|safe }}
+</div>
+
+{% endblock %}
