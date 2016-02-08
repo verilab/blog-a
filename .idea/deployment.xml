@@ -2,6 +2,13 @@
 <project version="4">
   <component name="PublishConfigData" autoUpload="Always" serverName="sh-qcloud-1">
     <serverData>
+      <paths name="cczu-1">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/python/BlogA" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="sh-qcloud-1">
         <serverdata>
           <mappings>
