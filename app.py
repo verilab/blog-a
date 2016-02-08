@@ -3,6 +3,7 @@
 
 from flask import Flask
 
+import config as C
 import handler
 
 app = Flask(__name__)
@@ -29,4 +30,4 @@ def page_not_found(e):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=True, host=C.host, port=C.port)

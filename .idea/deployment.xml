@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="sh-qcloud-1">
+  <component name="PublishConfigData" serverName="sh-qcloud-1">
     <serverData>
       <paths name="cczu-1">
         <serverdata>
@@ -17,6 +17,5 @@
         </serverdata>
       </paths>
     </serverData>
-    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>
