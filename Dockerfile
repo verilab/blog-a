@@ -8,5 +8,7 @@ ADD config.py config.py
 ADD handler.py handler.py
 ADD requirements.txt requirements.txt
 
+RUN pip install -r requirements.txt
+
 EXPOSE 8080
 CMD ["python", "./app.py"]
