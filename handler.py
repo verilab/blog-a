@@ -97,6 +97,8 @@ def post(year, month, day, post_name):
     article = yaml.load(yml)
     article['body'] = render_md(md)
     article['nav_title'] = ' - '.join((article['title'], C.title))
+    article['id_key'] = '-'.join((year, month, day, post_name))
+    article['url'] = '/'.join(('/post', year, month, day, post_name))
     return render_template('post.html', article=article)
 
 
