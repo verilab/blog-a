@@ -27,7 +27,14 @@ body {
     display: inline;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1000px) {
+    .main {
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1000px) {
     .main {
         padding-left: 40px;
         padding-right: 40px;

@@ -1,9 +1,10 @@
 import houdini
 import os
+from urllib.parse import urljoin
 
 import misaka
 import yaml
-from flask import render_template
+from flask import render_template, request
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import get_lexer_by_name
@@ -24,6 +25,10 @@ class HighlighterRenderer(misaka.HtmlRenderer):
 renderer = HighlighterRenderer()
 render_md = misaka.Markdown(renderer,
                             extensions=('fenced-code', 'tables', 'strikethrough', 'underline', 'highlight', 'quote'))
+
+
+def make_external_url(url):
+    return urljoin(request.url_root, url)
 
 
 def read_md_file(file_path):
@@ -83,6 +88,7 @@ def page(page_id):
 
 
 def post(year, month, day, post_name):
+    print(request.url, request.url_root)
     file_name = '-'.join((year, month, day, post_name)) + '.md'
     file_path = os.path.join('posts', file_name)
     if not os.path.exists(file_path):

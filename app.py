@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return page(1)
+    return handler.index()
 
 
 @app.route('/page/<int:page_id>')
