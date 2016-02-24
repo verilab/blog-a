@@ -102,3 +102,7 @@ def post(year, month, day, post_name):
 
 def page_not_found():
     return render_template('404.html'), 404
+
+
+def link():
+    return render_template('link.html')

@@ -24,10 +24,15 @@ def post(year, month, day, post_name):
     return handler.post(year, month, day, post_name)
 
 
+@app.route('/link', strict_slashes=False)
+def link():
+    return handler.link()
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return handler.page_not_found()
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host=C.host, port=C.port)
+    app.run(debug=False, host=C.host, port=C.port)
