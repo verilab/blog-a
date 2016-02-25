@@ -12,6 +12,10 @@ body {
     padding-bottom: 100px;
 }
 
+.article {
+    margin-bottom: 60px;
+}
+
 .footer {
     color: #666;
     height: 40px;

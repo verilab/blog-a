@@ -98,7 +98,7 @@ def post(year, month, day, post_name):
     article['body'] = render_md(md)
     article['nav_title'] = ' - '.join((article['title'], C.title))
     article['id_key'] = '-'.join((year, month, day, post_name))
-    article['url'] = '/'.join((C.site_url, 'post', year, month, day, post_name))
+    article['absolute_url'] = 'http://' + '/'.join((C.site_url, 'post', year, month, day, post_name))
     return render_template('post.html', article=article)
 
 
