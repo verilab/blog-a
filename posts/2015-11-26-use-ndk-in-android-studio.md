@@ -12,11 +12,11 @@ NDK 版本要求 ndk-r10e（写此文时最新版），由于众所周知的原�
 
 首先在 Android Studio 创建一个新的项目，从
 
-![image](http://7xqspp.com1.z0.glb.clouddn.com/16-2-7/22492684.jpg)
+![image](https://o33x5shzt.qnssl.com/16-2-7/22492684.jpg)
 
 里的「Project Structure」或工具栏上的
 
-![image](http://7xqspp.com1.z0.glb.clouddn.com/16-2-7/14635854.jpg)
+![image](https://o33x5shzt.qnssl.com/16-2-7/14635854.jpg)
 
 进入「Project Structure」配置窗口，在「Android NDK Location」那里手动选一下之前下载的 ndk 的目录，然后点「OK」保存。
 
