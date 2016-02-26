@@ -214,7 +214,7 @@ rake deploy
 
 ```sh
 git add .
-git commit -am ‘your commit message'
+git commit -am 'your commit message'
 git push origin source
 ```
 
