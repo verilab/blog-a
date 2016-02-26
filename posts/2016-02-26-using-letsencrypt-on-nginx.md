@@ -10,13 +10,13 @@ cd letsencrypt
 ./letsencrypt-auto --help
 ```
 
-这里第一次执行 `./letsencrypt-auto` 会安装各种依赖环境，会比较慢。
+第一次执行 `./letsencrypt-auto` 会安装各种依赖环境，会比较慢。
 
 ## 获取 SSL 证书
 
 这里只讨论 [Manual 模式](https://letsencrypt.readthedocs.org/en/latest/using.html#manual)。
 
-首先要把需要签证书的域名解析到当前服务器的 IP，这里以 `ssl.r-c.im` 演示，然后运行 `./letsencrypt-auto certonly --manual -d ssl.r-c.im`，`ssl.r-c.im` 换成要签的域名，也可以同时签多个域名，只需要加多个 `-d` 选项，如 `./letsencrypt-auto certonly --manual -d ssl.r-c.im -d ssl2.r-c.im`。
+首先要把需要签证书的域名解析到当前服务器的 IP，这里以 `ssl.r-c.im` 演示，然后运行 `./letsencrypt-auto certonly --manual -d ssl.r-c.im`，这里 `ssl.r-c.im` 换成要签的域名，也可以同时签多个域名，只需要加多个 `-d` 选项，如 `./letsencrypt-auto certonly --manual -d ssl.r-c.im -d ssl2.r-c.im`。
 
 耐心等待，这里可能需要等较长时间，直到出现下图这样：
 
@@ -24,7 +24,7 @@ cd letsencrypt
 
 选「Yes」，然后会出现类似于下面这样的内容：
 
-```sh
+```
 Make sure your web server displays the following content at
 http://ssl.r-c.im/.well-known/acme-challenge/7huixD-nddpR3c0T6aKt_MXqrpox4brEU4yA2rLNOIY before continuing:
 
@@ -46,7 +46,7 @@ Press ENTER to continue
 
 这里需要进行进行 ACME Challenge，按它的提示，如果已有 HTTP 服务器就确保 `http://ssl.r-c.im/.well-known/acme-challenge/7huixD-nddpR3c0T6aKt_MXqrpox4brEU4yA2rLNOIY` 这个路径返回的内容是 `7huixD-nddpR3c0T6aKt_MXqrpox4brEU4yA2rLNOIY.j0H7Twj9gLcy7RfbIMiW1qBaOJNa88UfRKlp0D96CaI`，如果没有就用 Python 临时搭一个（直接复制它给的命令运行即可）。
 
-HTTP 服务器配置好之后，按回车继续，等它验证通过即获得了 SSL 证书，默认放在了 `/etc/letsencrypt/live/ssl.r-c.im/` 目录下。
+HTTP 服务器配置好之后，按回车继续，等它验证通过即获得了 SSL 证书，默认放在了 `/etc/letsencrypt/live/ssl.r-c.im/` 目录下。如果后面证书到期了只需要重新进行这一步即可。
 
 ## 在 Nginx 上配置 SSL
 
@@ -64,8 +64,8 @@ server {
     server_name ssl.r-c.im;
 
     ssl                  on;
-    ssl_certificate      /etc/nginx/certs/live/richardchien.cn/fullchain.pem;
-    ssl_certificate_key  /etc/nginx/certs/live/richardchien.cn/privkey.pem;
+    ssl_certificate      /etc/letsencrypt/live/ssl.r-c.im/fullchain.pem;
+    ssl_certificate_key  /etc/letsencrypt/live/ssl.r-c.im/privkey.pem;
 
     ssl_session_timeout  5m;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -79,4 +79,4 @@ server {
 }
 ```
 
-这里把 http 的请求重定向到了 https，当然你也可以不这么做，配置完 `nginx -s reload` 即可。
+这里把 HTTP 的请求重定向到了 HTTPS，当然你也可以不这么做，配置完运行 `nginx -s reload` 即可。
