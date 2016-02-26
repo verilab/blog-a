@@ -1,4 +1,4 @@
-FROM daocloud.io/python:3.4.3
+FROM python:3.4.3
 
 ADD posts posts
 ADD static static
