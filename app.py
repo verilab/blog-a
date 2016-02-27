@@ -29,10 +29,15 @@ def link():
     return handler.link()
 
 
+@app.route('/feed', strict_slashes=False)
+def feed():
+    return handler.feed()
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return handler.page_not_found()
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host=C.host, port=C.port)
+    app.run(debug=True, host=C.host, port=C.port)

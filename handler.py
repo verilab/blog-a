@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 
 import misaka
 import yaml
+from feedgen.feed import FeedGenerator
 from flask import render_template, request
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
@@ -37,7 +38,7 @@ def read_md_file(file_path):
     return content
 
 
-def parse_posts_page(page_id):
+def parse_posts_page(page_id, count=C.max_count):
     entries = []
     info = {
         'title': C.title,
@@ -48,7 +49,6 @@ def parse_posts_page(page_id):
         'entries': []
     }
     f_list = sorted(os.listdir('posts'), reverse=True)
-    count = C.max_count
     target_f_list = f_list
     if count > 0:
         start = (page_id - 1) * count
@@ -64,8 +64,9 @@ def parse_posts_page(page_id):
         target_f_list = []
     for f in target_f_list:
         file_path = os.path.join('posts', f)
-        yml, _ = read_md_file(file_path)
+        yml, md = read_md_file(file_path)
         entry = yaml.load(yml)
+        entry['body'] = render_md(md)
         y, m, d, name = os.path.splitext(f)[0].split('-', 3)
         entry['date'] = '-'.join((y, m, d))
         entry['url'] = '/'.join(('/post', y, m, d, name))
@@ -108,3 +109,28 @@ def page_not_found():
 
 def link():
     return render_template('link.html')
+
+
+def feed():
+    f_list = sorted(os.listdir('posts'), reverse=True)
+
+    fg = FeedGenerator()
+    fg.id(str(len(f_list)))
+    fg.title("RC's Blog")
+    fg.author(dict(name='Richard Chien', email='richardchienthebest@gmail.com'))
+    fg.link(href=C.site_url, rel='alternate')
+    fg.subtitle("Feed of RC's Blog")
+    fg.link(href=C.site_url + '/feed', rel='self')
+    fg.language('zh')
+
+    entries = parse_posts_page(1, count=min(10, len(f_list)))['entries']
+    for entry in entries:
+        fe = fg.add_entry()
+        fe.id(entry['url'])
+        fe.title(entry['title'])
+        fe.link(href=C.site_url + entry['url'], rel='alternate')
+        fe.author(dict(name='Richard Chien', email='richardchienthebest@gmail.com'))
+        fe.content(entry['body'])
+
+    atom_feed = fg.atom_str(pretty=True)
+    return atom_feed
