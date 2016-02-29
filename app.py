@@ -14,7 +14,7 @@ def index():
     return handler.index()
 
 
-@app.route('/page/<int:page_id>')
+@app.route('/page/<int:page_id>', strict_slashes=False)
 def page(page_id):
     return handler.page(page_id)
 
@@ -32,6 +32,21 @@ def link():
 @app.route('/feed', strict_slashes=False)
 def feed():
     return handler.feed()
+
+
+@app.route('/category/<string:c>', strict_slashes=False)
+def category(c):
+    return page_not_found(None)
+
+
+@app.route('/tag/<string:t>', strict_slashes=False)
+def tag(t):
+    return page_not_found(None)
+
+
+@app.route('/<string:custom_page_name>', strict_slashes=False)
+def custom_page(custom_page_name):
+    return page_not_found(None)
 
 
 @app.errorhandler(404)
