@@ -6,7 +6,7 @@ import yaml
 
 import config as C
 
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta, date
 from urllib.parse import urljoin
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
@@ -143,7 +143,6 @@ def parse_posts(start=0, count=0, f_list=None):
         file_list = get_posts_list()
         if count > 0:
             end = start + min(count, len(file_list))  # using min() in case of over bound
-            print(len(file_list))
             file_list = file_list[start:end]
     else:
         # parse specific file list
@@ -172,11 +171,11 @@ def parse_posts(start=0, count=0, f_list=None):
         for k, v in post_info.items():
             entry[k] = v
 
-        # fix datetime if no tzinfo
+        # fix datetime wrongly being a date object or has no tzinfo
         if 'date' in entry:
-            entry['date'] = fix_timezone(entry['date'])
+            entry['date'] = fix_datetime(entry['date'])
         if 'updated' in entry:
-            entry['updated'] = fix_timezone(entry['updated'])
+            entry['updated'] = fix_datetime(entry['updated'])
 
         # render markdown body to html
         entry['body'] = render_md(md)
@@ -238,13 +237,15 @@ def timezone_from_str(tz_str):
     return timezone(timedelta(hours=delta_h, minutes=delta_m))
 
 
-def fix_timezone(date):
+def fix_datetime(dt):
     """
-    Attach default timezone info is no one exists before
+    Fix a datetime (supposed to be)
 
-    :param date: datetime object to fix
-    :return: datetime with tzinfo
+    :param dt: datetime to fix
+    :return: correct datetime object
     """
-    if date is not None and date.tzinfo is None:
-        date = date.replace(tzinfo=timezone_from_str(C.timezone))
-    return date
+    if isinstance(dt, date):
+        dt = datetime(dt.year, dt.month, dt.day)
+    if dt is not None and dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone_from_str(C.timezone))
+    return dt
