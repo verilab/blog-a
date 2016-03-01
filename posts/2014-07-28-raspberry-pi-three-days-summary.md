@@ -1,5 +1,7 @@
 title: 树莓派上手三天总结
-last_update: 2014-07-28
+updated: 2014-07-28
+categories: Tech
+tags: [Raspberry Pi, Linux]
 
 7 月 25 日，伴随着一点冲动，就下单买了最新的树莓派 B+ 以及入门必备的一些配件，26 日下午送到，就开始了这三天的折腾。
 

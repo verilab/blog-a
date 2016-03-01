@@ -1,4 +1,6 @@
 title: Android 调用系统相机拍摄照片
+categories: Tech
+tags: [Java, Android]
 
 ## 1. 获取缩略图
 

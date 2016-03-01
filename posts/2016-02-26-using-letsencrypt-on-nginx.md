@@ -1,4 +1,6 @@
 title: 用 Let's Encrypt 免费签发 SSL 证书并在 Nginx 上使用
+categories: Tech
+tags: [SSL, Let's Encrypt, Nginx]
 
 昨天尝试给博客加上了 SSL，用的 [Let's Encrypt](https://letsencrypt.org/)，这玩意可以免费签发有效期 90 天的 SSL 证书，使用也挺简单的，这里总结一下。
 

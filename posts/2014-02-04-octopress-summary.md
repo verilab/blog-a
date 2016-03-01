@@ -1,4 +1,6 @@
 title: Octopress 搭建博客总结以及可选功能
+categories: Tech
+tags: [Octopress]
 
 ## 1. 总结
 

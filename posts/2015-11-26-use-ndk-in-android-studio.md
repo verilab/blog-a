@@ -1,4 +1,6 @@
 title: 在 Android Studio 中使用 Android NDK
+categories: Tech
+tags: [Java, Android, NDK]
 
 ## 1. 环境
 

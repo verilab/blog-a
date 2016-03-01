@@ -1,4 +1,6 @@
 title: 更换电脑或多台电脑同时使用 Octopress
+categories: Tech
+tags: [Octopress]
 
 如果你的电脑上的 Octopress 文件夹被误删了，或者你换电脑了，或者你想在多台电脑上同时都可以写博客，那么本教程将教你如何解决。
 

@@ -1,4 +1,6 @@
 title: C# 检测是否有网络连接
+categories: Tech
+tags: [C#, Windows, dotNet]
 
 最近在做的一个项目需要在后台不断检测是否有网络连接，一开始用 `Ping` 来检测，代码如下：
 

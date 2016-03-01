@@ -1,4 +1,6 @@
 title: UITextField 点击 Return 后隐藏键盘
+categories: Tech
+tags: [iOS, Objective-C]
 
 关于这个问题，当初到处查，现在看来，已经是个很简单的问题了，不过还是记一下吧。
 

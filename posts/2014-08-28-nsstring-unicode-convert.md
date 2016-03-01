@@ -1,4 +1,6 @@
 title: 将 NSString 字符串转换成 Unicode 编码
+categories: Tech
+tags: [Objective-C]
 
 今天是突然想把一些字符串转成形如 `\u597d` 的 Unicode 编码。
 

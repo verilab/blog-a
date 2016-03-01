@@ -1,4 +1,6 @@
 title: Octopress 博客 deploy 失败的解决办法
+categories: Tech
+tags: [Octopress]
 
 参考资料：[rake gen_deploy rejected in Octopress](http://stackoverflow.com/questions/17609453/rake-gen-deploy-rejected-in-octopress)
 

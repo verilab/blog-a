@@ -1,4 +1,6 @@
 title: CentOS 上安装 shadowsocks-manyuser 实现 shadowsocks 多人共享平台
+categories: Tech
+tags: [Shadowsocks, Linux]
 
 ## 1. 创建数据库
 

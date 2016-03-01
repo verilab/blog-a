@@ -1,4 +1,6 @@
 title: Disable actions in UITextField or UITextView
+categories: Tech
+tags: [iOS, Objective-C]
 
 In many cases, we need to disable some actions in `UITextField` or `UITextView` so that users cannot edit the texts. I have two methods here.
 

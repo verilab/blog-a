@@ -1,4 +1,6 @@
 title: NSURLConnection 发送异步请求
+categories: Tech
+tags: [iOS, Objective-C]
 
 很简单，代码如下：
 

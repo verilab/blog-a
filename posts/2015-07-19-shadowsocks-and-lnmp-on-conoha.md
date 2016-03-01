@@ -1,4 +1,6 @@
-title: 在 ConoHa VPS 上搭建 Shadowsocks 和 LNMP 过程及遇到的问题
+title: 在 CentOS 上搭建 Shadowsocks 和 LNMP 过程及遇到的问题
+categories: Tech
+tags: [Linux, Shadowsocks]
 
 这几天闲着蛋疼，折腾了一下 VPS。这玩意每次折腾都得烦死，但每次都忍不住地去折腾。
 

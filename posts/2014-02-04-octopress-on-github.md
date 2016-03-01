@@ -1,5 +1,7 @@
 title: 用 Octopress 在 GitHub 上搭建博客
-last_update: 2014-02-05
+updated: 2014-02-05
+categories: Tech
+tags: [Octopress]
 
 ## 1. Octopress 是什么
 

@@ -1,4 +1,7 @@
 title: （已失效）使用 Google App Engine 翻墙
+categories: Tech
+tags: [GAE, GoAgent]
+
 
 ## 1. 登陆 App Engine
 
