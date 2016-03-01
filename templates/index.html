@@ -2,26 +2,29 @@
 
 {% block head %}
 
-<title>{{ info.site_title }}</title>
+<title>{{ site.title }}</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheets/github_issue.css') }}">
 
 {% endblock %}
 
 {% block body %}
 
-<ul>
-    {% for entry in info.entries %}
-    <li>[{{ entry.date }}] <a href="{{ entry.url }}">{{ entry.title }}</a></li>
+<ul class="table-list table-list-bordered table-list-issues js-navigation-container js-active-navigation-container">
+    {% from 'lists.html' import item %}
+    {% for entry in page.entries %}
+    {{ item(entry) }}
     {% else %}
     <li>No entry.</li>
     {% endfor %}
 </ul>
 
-{% if info.has_older %}
-<a href="{{ info.older_url }}">Older</a>
-{% endif %}
-
-{% if info.has_newer %}
-<a href="{{ info.newer_url }}">Newer</a>
-{% endif %}
+<div class="bottom-link">
+    {% if page.has_older %}
+    <a href="{{ page.older_url }}" class="label bottom-link-item">Older</a>
+    {% endif %}
+    {% if page.has_newer %}
+    <a href="{{ page.newer_url }}" class="label bottom-link-item">Newer</a>
+    {% endif %}
+</div>
 
 {% endblock %}

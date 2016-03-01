@@ -1,0 +1,19 @@
+{% macro item(entry) -%}
+<li class="table-list-item">
+    <div class="table-list-cell issue-title">
+        <a href="{{ entry.url }}" class="issue-title-link">
+            {{ entry.title }}
+        </a>
+        {% for tag in entry.tags %}
+        <span>
+            <a href="#" class="label" style="background-color: #207de5; color: #fff;">{{ tag }}</a>
+        </span>
+        {% endfor %}
+        <div class="issue-meta">
+            <span class="issue-meta-section">
+                published on {{ entry.date.month }} {{ entry.date.strftime('%b') }}, {{ entry.date.year }} by {{ entry.author }}
+            </span>
+        </div>
+    </div>
+</li>
+{%- endmacro %}

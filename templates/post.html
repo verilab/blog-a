@@ -2,7 +2,8 @@
 
 {% block head %}
 
-<title>{{ article.nav_title }}</title>
+<title>{{ page.nav_title }}</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheets/github_markdown.css') }}">
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheets/code.css') }}">
 
 {% endblock %}
@@ -10,13 +11,13 @@
 {% block body %}
 
 <div class="markdown-body article">
-    <h1>{{ article.title }}</h1>
+    <h1>{{ page.title }}</h1>
 
-    {% if article.last_update %}
-    <p>最后更新: {{ article.last_update }}</p>
+    {% if page.updated %}
+    <p>最后更新: {{ page.updated }}</p>
     {% endif %}
 
-    {{ article.body|safe }}
+    {{ page.body|safe }}
 </div>
 
 {% include 'disqus.html' ignore missing %}
