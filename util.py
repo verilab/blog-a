@@ -6,7 +6,7 @@ import yaml
 
 import config as C
 
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from urllib.parse import urljoin
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
@@ -106,6 +106,12 @@ def render_md(md_str):
     )(md_str)
 
 
+# regex to match the post file with correct format
+post_file_regex = re.compile(
+    r'(\d{4}|\d{2})-((1[0-2])|(0?[1-9]))-(([12][0-9])|(3[01])|(0?[1-9]))-[\w-]+\.(md|markdown)'
+)
+
+
 def get_posts_list():
     """
     Get list of all post files, whose name match the format "yyyy-m(m)-d(d)-text.m(ark)d(own)"
@@ -113,31 +119,35 @@ def get_posts_list():
     :return: list of all post files
     """
     file_list = []
-    reg = re.compile(r'(\d{4}|\d{2})-((1[0-2])|(0?[1-9]))-(([12][0-9])|(3[01])|(0?[1-9]))-[\w-]+\.(md|markdown)')
     for file in sorted(os.listdir('posts'), reverse=True):
-        if reg.match(file):
+        if post_file_regex.match(file):
             file_list.append(file)
     return file_list
 
 
-def parse_posts(start=0, count=0):
+def parse_posts(start=0, count=0, f_list=None):
     """
     Parse posts in the "posts" directory
 
     :param start: the first post id
     :param count: number of posts to parse (0 for all)
+    :param f_list: specific file list
     :return: list of parsed post (a list of dict)
     """
-    # count can't be less than 0
-    if count < 0:
-        raise ValueError('The number of posts to parse cannot be less than 0.')
+    if not f_list:
+        # count can't be less than 0
+        if count < 0:
+            raise ValueError('The number of posts to parse cannot be less than 0.')
 
-    # filter the file list
-    file_list = get_posts_list()
-    if count > 0:
-        end = start + min(count, len(file_list))  # using min() in case of over bound
-        print(len(file_list))
-        file_list = file_list[start:end]
+        # filter the file list
+        file_list = get_posts_list()
+        if count > 0:
+            end = start + min(count, len(file_list))  # using min() in case of over bound
+            print(len(file_list))
+            file_list = file_list[start:end]
+    else:
+        # parse specific file list
+        file_list = f_list
 
     entries = []
     for file in file_list:
@@ -146,9 +156,9 @@ def parse_posts(start=0, count=0):
         # set default post info
         entry = {
             'layout': 'post',
-            'published': True,
-            'categories': [],
-            'tags': [],
+            'author': C.author,
+            'email': C.email,
+            # default date, title, url from file name
             'date': datetime(int(y), int(m), int(d)),
             'title': ' '.join(map(lambda w: w.capitalize(), file_name.split('-'))),
             'url': '/'.join(('/post', y, m, d, file_name))
@@ -162,11 +172,16 @@ def parse_posts(start=0, count=0):
         for k, v in post_info.items():
             entry[k] = v
 
+        # fix datetime if no tzinfo
+        if 'date' in entry:
+            entry['date'] = fix_timezone(entry['date'])
+        if 'updated' in entry:
+            entry['updated'] = fix_timezone(entry['updated'])
+
         # render markdown body to html
         entry['body'] = render_md(md)
 
-        if entry['published']:
-            entries.append(entry)
+        entries.append(entry)
 
     return entries
 
@@ -178,8 +193,7 @@ def parse_posts_page(page_id):
     :param page_id: id of page to parse
     :return: a info dict to be sent to templates
     """
-    info = {
-        'site_title': C.site_title,
+    pg = {
         'has_newer': False,
         'newer_url': '',
         'has_older': False,
@@ -188,18 +202,49 @@ def parse_posts_page(page_id):
     }
 
     count = C.entry_count_one_page
-    file_list = sorted(os.listdir('posts'), reverse=True)
-    if count > 0 or (count == 0 and page_id == 1):
-        start = (page_id - 1) * count
-        end = min(page_id * count, len(file_list))
+    file_list = get_posts_list()
 
-        if start > 0:
-            info['has_newer'] = True
-            info['newer_url'] = '/'.join(('/page', str(page_id - 1))) if page_id - 1 != 1 else '/'
-        if end < len(file_list):
-            info['has_older'] = True
-            info['older_url'] = '/'.join(('/page', str(page_id + 1)))
+    if count == 0 and page_id != 1:
+        # should show all posts but not on page 1, then show nothing
+        return pg
 
-        info['entries'] = parse_posts(start, count)
+    # show specific number of posts or all (only on page 1)
+    start = (page_id - 1) * count
+    end = min(page_id * count, len(file_list))
 
-    return info
+    # determine there are newer or older posts
+    if start > 0:
+        pg['has_newer'] = True
+        pg['newer_url'] = '/'.join(('/page', str(page_id - 1))) if page_id - 1 != 1 else '/'
+    if end < len(file_list) and end != 0:
+        pg['has_older'] = True
+        pg['older_url'] = '/'.join(('/page', str(page_id + 1)))
+
+    pg['entries'] = parse_posts(start, count)
+
+    return pg
+
+
+def timezone_from_str(tz_str):
+    """
+    Convert a timezone string to a timezone object
+
+    :param tz_str: string with format 'UTC±[hh]:[mm]'
+    :return: a timezone object
+    """
+    m = re.match(r'UTC([+|-]\d{1,2}):(\d{2})', tz_str)
+    delta_h = int(m.group(1))
+    delta_m = int(m.group(2)) if delta_h >= 0 else -int(m.group(2))
+    return timezone(timedelta(hours=delta_h, minutes=delta_m))
+
+
+def fix_timezone(date):
+    """
+    Attach default timezone info is no one exists before
+
+    :param date: datetime object to fix
+    :return: datetime with tzinfo
+    """
+    if date is not None and date.tzinfo is None:
+        date = date.replace(tzinfo=timezone_from_str(C.timezone))
+    return date

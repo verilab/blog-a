@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from flask import Flask
+import handler
 
 import config as C
-import handler
+
+from flask import Flask
 
 app = Flask(__name__)
 
@@ -22,11 +23,6 @@ def page(page_id):
 @app.route('/post/<string:year>/<string:month>/<string:day>/<post_name>')
 def post(year, month, day, post_name):
     return handler.post(year, month, day, post_name)
-
-
-@app.route('/link', strict_slashes=False)
-def link():
-    return handler.link()
 
 
 @app.route('/feed', strict_slashes=False)

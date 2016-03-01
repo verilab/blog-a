@@ -1,7 +1,14 @@
-site_title = '''RC's Blog'''
-site_url = 'http://blog.r-c.im'
+# site info
+title = '''RC's Blog'''
+subtitle = ''
+root_url = 'http://blog.r-c.im'
 author = 'Richard Chien'
-entry_count_one_page = 10
+email = 'richardchienthebest@gmail.com'
+
+# configuration
+entry_count_one_page = 0
 feed_count = 10
+language = 'zh_CN'
+timezone = 'UTC+08:00'  # UTC±[hh]:[mm]
 host = '0.0.0.0'
 port = 8080
