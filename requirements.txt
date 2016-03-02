@@ -4,3 +4,4 @@ houdini.py
 misaka
 PyYAML
 Pygments
+feedgen
