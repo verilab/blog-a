@@ -15,6 +15,18 @@
         <div class="issue-meta">
             <span class="issue-meta-section">
                 published on {{ entry.date.month }} {{ entry.date.strftime('%b') }}, {{ entry.date.year }} by {{ entry.author }}
+                {% if entry.categories %}
+                in
+                {% if entry.categories|length > 1 %}
+                categories
+                {% else %}
+                category
+                {% endif %}
+                {{ entry.categories[0] }}
+                {% for cat in entry.categories[1:] %}
+                + {{ cat }}
+                {% endfor %}
+                {% endif %}
             </span>
         </div>
     </div>
