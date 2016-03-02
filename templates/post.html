@@ -3,8 +3,8 @@
 {% block head %}
 
 <title>{{ page.nav_title }}</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheets/github_markdown.css') }}">
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='stylesheets/code.css') }}">
+<link rel=stylesheet type=text/css href="/static/stylesheets/github_markdown.css">
+<link rel=stylesheet type=text/css href="/static/stylesheets/code.css">
 
 {% endblock %}
 
@@ -25,6 +25,9 @@
     <table>
         <thead>
         <tr>
+            {% if page.categories %}
+            <th>类别</th>
+            {% endif %}
             <th>发布日期</th>
             {% if page.updated %}
             <th>更新日期</th>
@@ -33,6 +36,14 @@
         </thead>
         <tbody>
         <tr>
+            {% if page.categories %}
+            <td>
+                {{ page.categories[0] }}
+                {% for cat in page.categories[1:] %}
+                + {{ cat }}
+                {% endfor %}
+            </td>
+            {% endif %}
             <td>{{ page.date.day }} {{ page.date.strftime('%b') }}, {{ page.date.year }}</td>
             {% if page.updated %}
             <td>{{ page.updated.day }} {{ page.updated.strftime('%b') }}, {{ page.updated.year }}</td>
