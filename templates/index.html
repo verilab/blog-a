@@ -9,7 +9,7 @@
 
 {% block body %}
 
-<ul class="table-list table-list-bordered table-list-issues js-navigation-container js-active-navigation-container">
+<ul class="table-list table-list-bordered table-list-issues">
     {% from 'lists.html' import item %}
     {% for entry in page.entries %}
     {{ item(entry) }}

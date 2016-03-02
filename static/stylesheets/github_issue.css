@@ -26,6 +26,10 @@ ul {
     list-style: none
 }
 
+.table-list-item:hover {
+    background-color: #f5f5f5;
+}
+
 .table-list-cell {
     position: relative;
     display: table-cell;
