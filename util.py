@@ -177,6 +177,12 @@ def parse_posts(start=0, count=0, f_list=None):
         if 'updated' in entry:
             entry['updated'] = fix_datetime(entry['updated'])
 
+        # fix categories and tags
+        if 'categories' in entry and not isinstance(entry['categories'], list):
+            entry['categories'] = [entry['categories']]
+        if 'tags' in entry and not isinstance(entry['tags'], list):
+            entry['tags'] = [entry['tags']]
+
         # render markdown body to html
         entry['body'] = render_md(md)
 
