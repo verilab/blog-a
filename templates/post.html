@@ -11,11 +11,35 @@
 {% block body %}
 
 <div class="markdown-body article">
+    {% set colors = ['#e11d21', '#eb6420', '#fbca04', '#009800', '#006b75', '#207de5', '#0052cc', '#5319e7'] %}
+    {% for tag in page.tags %}
+    <span>
+        {% set index = tag|length % colors|length %}
+        {% set style = 'style="background-color: %s; color: #fff;"'|format(colors[index]) %}
+        <a href="#" class="label" {{ style|safe }}>{{ tag }}</a>
+    </span>
+    {% endfor %}
+
     <h1>{{ page.title }}</h1>
 
-    {% if page.updated %}
-    <p>最后更新: {{ page.updated }}</p>
-    {% endif %}
+    <table>
+        <thead>
+        <tr>
+            <th>发布日期</th>
+            {% if page.updated %}
+            <th>更新日期</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ page.date.day }} {{ page.date.strftime('%b') }}, {{ page.date.year }}</td>
+            {% if page.updated %}
+            <td>{{ page.updated.day }} {{ page.updated.strftime('%b') }}, {{ page.updated.year }}</td>
+            {% endif %}
+        </tr>
+        </tbody>
+    </table>
 
     {{ page.body|safe }}
 </div>

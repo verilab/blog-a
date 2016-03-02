@@ -1,5 +1,4 @@
 title: 树莓派上手三天总结
-updated: 2014-07-28
 categories: Tech
 tags: [Raspberry Pi, Linux]
 

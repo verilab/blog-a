@@ -6,7 +6,7 @@ author = 'Richard Chien'
 email = 'richardchienthebest@gmail.com'
 
 # configuration
-entry_count_one_page = 0
+entry_count_one_page = 10
 feed_count = 10
 language = 'zh_CN'
 timezone = 'UTC+08:00'  # UTC±[hh]:[mm]
