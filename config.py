@@ -2,20 +2,20 @@ from attrdict import AttrDict
 
 config = AttrDict(
     # site info
-    title='RiCE Blog',
-    subtitle='',
-    root_url='http://blog.r-c.im',
-    author='Richard Chien',
-    email='richardchienthebest@gmail.com',
+    title='Blog A',
+    subtitle='Yet another Blog A',
+    root_url='http://example.com',
+    author='Your Name',
+    email='example@example.com',
 
     # discuss field
     duoshuo_enable=False,
-    duoshuo_short_name='richardchien',
-    disqus_enable=True,
-    disqus_short_name='richardchien',
+    duoshuo_short_name='',
+    disqus_enable=False,
+    disqus_short_name='',
 
     # configuration
-    entry_count_one_page=10,
+    entry_count_one_page=0,
     feed_count=10,
     language='zh_CN',
     timezone='UTC+08:00',  # UTC±[hh]:[mm]
