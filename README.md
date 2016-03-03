@@ -44,7 +44,7 @@ python3 app.py
 模板使用 Jinja2 引擎，语法参考 [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)，模板文件放在 `templates` 目录，运行时程序要求确保 `templates` 目录下有名为 `index.html`、`post.html`、`tag.html`、`category.html`、`404.html` 的几个文件，这些模板文件与 URL 的对应关系如下：
 
 ```
-/ -> index.html
+/                           -> index.html
 /page/2                     -> index.html
 /post/2016/03/03/some-title -> post.html
 /tag/some-tag               -> tag.html
