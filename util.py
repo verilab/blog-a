@@ -125,13 +125,30 @@ def get_posts_list():
     return file_list
 
 
-def parse_posts(start=0, count=0, f_list=None):
+def default_post_info(file):
+    y, m, d, file_name = os.path.splitext(file)[0].split('-', 3)
+    # set default post info
+    entry = {
+        'layout': 'post',
+        'author': C.author,
+        'email': C.email,
+        # default date, title, url from file name
+        'date': datetime(int(y), int(m), int(d)),
+        'title': ' '.join(map(lambda w: w.capitalize(), file_name.split('-'))),
+        'url': '/'.join(('/post', y, m, d, file_name))
+    }
+    return entry
+
+
+def parse_posts(start=0, count=0, f_list=None, tag=None, category=None):
     """
     Parse posts in the "posts" directory
 
     :param start: the first post id
     :param count: number of posts to parse (0 for all)
     :param f_list: specific file list
+    :param tag: specific tag
+    :param category: specific category
     :return: list of parsed post (a list of dict)
     """
     if not f_list:
@@ -148,20 +165,28 @@ def parse_posts(start=0, count=0, f_list=None):
         # parse specific file list
         file_list = f_list
 
+    # filter tag and category
+    new_file_list = []
+    if tag is not None or category is not None:
+        for file in file_list:
+            file_path = os.path.join('posts', file)
+            yml_dict = render_yaml(read_md_file_head(file_path))
+
+            # make sure that the tags and categories are lists
+            if 'categories' in yml_dict:
+                yml_dict['categories'] = to_list(yml_dict['categories'])
+            if 'tags' in yml_dict:
+                yml_dict['tags'] = to_list(yml_dict['tags'])
+
+            if ('tags' in yml_dict and tag in yml_dict['tags']) or \
+                    ('categories' in yml_dict and category in yml_dict['categories']):
+                new_file_list.append(file)
+
+        file_list = new_file_list
+
     entries = []
     for file in file_list:
-        y, m, d, file_name = os.path.splitext(file)[0].split('-', 3)
-
-        # set default post info
-        entry = {
-            'layout': 'post',
-            'author': C.author,
-            'email': C.email,
-            # default date, title, url from file name
-            'date': datetime(int(y), int(m), int(d)),
-            'title': ' '.join(map(lambda w: w.capitalize(), file_name.split('-'))),
-            'url': '/'.join(('/post', y, m, d, file_name))
-        }
+        entry = default_post_info(file)
 
         file_path = os.path.join('posts', file)
         yml, md = read_md_file(file_path)
@@ -178,10 +203,10 @@ def parse_posts(start=0, count=0, f_list=None):
             entry['updated'] = fix_datetime(entry['updated'])
 
         # fix categories and tags
-        if 'categories' in entry and not isinstance(entry['categories'], list):
-            entry['categories'] = [entry['categories']]
-        if 'tags' in entry and not isinstance(entry['tags'], list):
-            entry['tags'] = [entry['tags']]
+        if 'categories' in entry:
+            entry['categories'] = to_list(entry['categories'])
+        if 'tags' in entry:
+            entry['tags'] = to_list(entry['tags'])
 
         # render markdown body to html
         entry['body'] = render_md(md)
@@ -255,3 +280,15 @@ def fix_datetime(dt):
     if dt is not None and dt.tzinfo is None:
         dt = dt.replace(tzinfo=timezone_from_str(C.timezone))
     return dt
+
+
+def to_list(item):
+    """
+    Make a list contains item if item is not a list
+
+    :param item: item to convert
+    :return: a list
+    """
+    if item is not None and not isinstance(item, list):
+        return [item]
+    return item

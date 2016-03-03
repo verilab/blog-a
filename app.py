@@ -32,12 +32,12 @@ def feed():
 
 @app.route('/category/<string:c>', strict_slashes=False)
 def category(c):
-    return page_not_found(None)
+    return handler.category(c)
 
 
 @app.route('/tag/<string:t>', strict_slashes=False)
 def tag(t):
-    return page_not_found(None)
+    return handler.tag(t)
 
 
 @app.route('/<string:custom_page_name>', strict_slashes=False)

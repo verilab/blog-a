@@ -41,7 +41,15 @@ python3 app.py
 
 ## 自定义主题
 
-模板使用 Jinja2 引擎，语法参考 [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)，模板文件放在 `templates` 目录，运行时程序要求确保 `templates` 目录下有名为 `index.html`、`post.html`、`404.html` 的三个文件，用来显示首页、Post 内容和 404 页面，其余文件自理。
+模板使用 Jinja2 引擎，语法参考 [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)，模板文件放在 `templates` 目录，运行时程序要求确保 `templates` 目录下有名为 `index.html`、`post.html`、`tag.html`、`category.html`、`404.html` 的几个文件，这些模板文件与 URL 的对应关系如下：
+
+```
+/ -> index.html
+/page/2                     -> index.html
+/post/2016/03/03/some-title -> post.html
+/tag/some-tag               -> tag.html
+/category/some-category     -> category.html
+```
 
 渲染 HTML 时传入的变量为 `site` 和 `page`。`site` 中保存网站信息，即 `config.py` 中 site info 部分的配置；`page` 中保存页面相关的信息，具体内容如下：
 
@@ -54,15 +62,20 @@ older_url: 更早的 Post 列表
 entries: 当前页面需要显示的所有 Post 条目列表，其中每一个列表项的属性即为 Post 文件开头的 YAML 标记的信息, 以及 "body", 保存已解析成 HTML 的 Markdown 正文内容
 
 # 传入 post.html 的 page 的属性
-# 除了 Post 文件开头的 YAML 标记的信息以及 "body" 外，还包括下面三个
-nav_title: 浏览器标签标题
+# 除了 Post 文件开头的 YAML 标记的信息以及 "body" 外, 还包括下面两个:
 id_key: 代表该 Post 的唯一值, 用于 Disqus 之类评论框
 absolute_url: 链接到该 Post 的绝对路径, 用于 Disqus 之类评论框
+
+# 传入 tag.html 的 page 的属性
+tag: Tag 名称
+entries: 与传入 index.html 的 page 中的 entries 相同
+
+# 传入 category.html 的 page 的属性
+category: Category 名称
+entries: 与传入 index.html 的 page 中的 entries 相同
 ```
 
 ## TODO
 
-- 显示含有指定 Tag 的 Post（URL：`/tag/the-tag`）
-- 显示含有指定 Category 的 Post（URL：`/category/the-category`）
 - 支持除 post 以外的 layout
 - 生成静态 HTML 文件

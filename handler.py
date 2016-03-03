@@ -48,7 +48,6 @@ def post(year, month, day, name):
         return page_not_found()
 
     article = parse_posts(f_list=(file_name_with_ext,))[0]
-    article['nav_title'] = ' - '.join((article['title'], C.title))
     article['id_key'] = file_name
     article['absolute_url'] = make_abs_url(C.root_url, '/'.join(('post', year, month, day, name)))
 
@@ -59,7 +58,7 @@ def page_not_found():
     """
     Render 404 page
     """
-    return render_template('404.html'), 404
+    return render_template('404.html', site=site_info), 404
 
 
 def feed():
@@ -87,3 +86,31 @@ def feed():
 
     atom_feed = fg.atom_str(pretty=True)
     return atom_feed
+
+
+def tag(t):
+    """
+    Render tag page
+    """
+    pg = {
+        'tag': t,
+        'entries': parse_posts(tag=t)
+    }
+    if pg['entries']:
+        return render_template('tag.html', site=site_info, page=pg)
+    else:
+        return page_not_found()
+
+
+def category(c):
+    """
+    Render category page
+    """
+    pg = {
+        'category': c,
+        'entries': parse_posts(category=c)
+    }
+    if pg['entries']:
+        return render_template('category.html', site=site_info, page=pg)
+    else:
+        return page_not_found()

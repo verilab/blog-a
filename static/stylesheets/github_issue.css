@@ -63,3 +63,12 @@ ul {
 .issue-meta-section {
     margin-right: 10px
 }
+
+.muted-link {
+    color: #767676
+}
+
+.muted-link:hover {
+    color: #4078c0;
+    text-decoration: none
+}

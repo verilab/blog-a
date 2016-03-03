@@ -2,7 +2,7 @@
 
 {% block head %}
 
-<title>{{ page.nav_title }}</title>
+<title>{{ page.title + ' - ' + site.title }}</title>
 <link rel=stylesheet type=text/css href="/static/stylesheets/github_markdown.css">
 <link rel=stylesheet type=text/css href="/static/stylesheets/code.css">
 
@@ -14,9 +14,9 @@
     {% set colors = ['#e11d21', '#eb6420', '#fbca04', '#009800', '#006b75', '#207de5', '#0052cc', '#5319e7'] %}
     {% for tag in page.tags %}
     <span>
-        {% set index = tag|length % colors|length %}
-        {% set style = 'style="background-color: %s; color: #fff;"'|format(colors[index]) %}
-        <a href="#" class="label" {{ style|safe }}>{{ tag }}</a>
+        {% set i = tag|length % colors|length %}
+        {% set style = 'style="background-color: %s; color: #fff;"'|format(colors[i]) %}
+        <a href="/tag/{{ tag }}" class="label" {{ style|safe }}>{{ tag }}</a>
     </span>
     {% endfor %}
 
@@ -38,9 +38,9 @@
         <tr>
             {% if page.categories %}
             <td>
-                {{ page.categories[0] }}
+                <a href="/category/{{ page.categories[0] }}" class="muted-link">{{ page.categories[0] }}</a>
                 {% for cat in page.categories[1:] %}
-                + {{ cat }}
+                & <a href="/category/{{ cat }}" class="muted-link">{{ cat }}</a>
                 {% endfor %}
             </td>
             {% endif %}

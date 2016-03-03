@@ -2,7 +2,7 @@
 
 {% block head %}
 
-<title>{{ site.title }}</title>
+<title>{{ page.category + ' - Category - ' + site.title }}</title>
 
 {% endblock %}
 
@@ -16,14 +16,5 @@
     <li>No entry.</li>
     {% endfor %}
 </ul>
-
-<div class="bottom-link">
-    {% if page.has_older %}
-    <a href="{{ page.older_url }}" class="label bottom-link-item">Older</a>
-    {% endif %}
-    {% if page.has_newer %}
-    <a href="{{ page.newer_url }}" class="label bottom-link-item">Newer</a>
-    {% endif %}
-</div>
 
 {% endblock %}

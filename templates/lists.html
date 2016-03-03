@@ -7,9 +7,9 @@
         </a>
         {% for tag in entry.tags %}
         <span>
-            {% set index = tag|length % colors|length %}
-            {% set style = 'style="background-color: %s; color: #fff;"'|format(colors[index]) %}
-            <a href="#" class="label" {{ style|safe }}>{{ tag }}</a>
+            {% set i = tag|length % colors|length %}
+            {% set style = 'style="background-color: %s; color: #fff;"'|format(colors[i]) %}
+            <a href="/tag/{{ tag }}" class="label" {{ style|safe }}>{{ tag }}</a>
         </span>
         {% endfor %}
         <div class="issue-meta">
@@ -22,9 +22,9 @@
                 {% else %}
                 category
                 {% endif %}
-                {{ entry.categories[0] }}
+                <a href="/category/{{ entry.categories[0] }}" class="muted-link">{{ entry.categories[0] }}</a>
                 {% for cat in entry.categories[1:] %}
-                + {{ cat }}
+                & <a href="/category/{{ cat }}" class="muted-link">{{ cat }}</a>
                 {% endfor %}
                 {% endif %}
             </span>
