@@ -4,13 +4,13 @@ import misaka
 import houdini
 import yaml
 
-import config as C
-
 from datetime import datetime, timezone, timedelta, date
 from urllib.parse import urljoin
 from pygments import highlight
 from pygments.formatters.html import HtmlFormatter
 from pygments.lexers import get_lexer_by_name
+
+from config import config as C
 
 
 class HighlighterRenderer(misaka.HtmlRenderer):

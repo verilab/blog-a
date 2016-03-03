@@ -1,18 +1,10 @@
 import os
 
-import config as C
-
 from feedgen.feed import FeedGenerator
 from flask import render_template
 from util import parse_posts, make_abs_url, parse_posts_page
 
-site_info = dict(
-    title=C.title,
-    subtitle=C.subtitle,
-    root_url=C.root_url,
-    author=C.author,
-    email=C.email
-)
+from config import config as C
 
 
 def index():
@@ -28,7 +20,7 @@ def page(page_id):
     """
     pg = parse_posts_page(page_id)
     if pg['entries'] or page_id == 1:
-        return render_template('index.html', site=site_info, page=pg)
+        return render_template('index.html', site=C, page=pg)
     else:
         return page_not_found()
 
@@ -51,14 +43,14 @@ def post(year, month, day, name):
     article['id_key'] = file_name
     article['absolute_url'] = make_abs_url(C.root_url, '/'.join(('post', year, month, day, name)))
 
-    return render_template('post.html', site=site_info, page=article)
+    return render_template('post.html', site=C, page=article)
 
 
 def page_not_found():
     """
     Render 404 page
     """
-    return render_template('404.html', site=site_info), 404
+    return render_template('404.html', site=C), 404
 
 
 def feed():
@@ -97,7 +89,7 @@ def tag(t):
         'entries': parse_posts(tag=t)
     }
     if pg['entries']:
-        return render_template('tag.html', site=site_info, page=pg)
+        return render_template('tag.html', site=C, page=pg)
     else:
         return page_not_found()
 
@@ -111,6 +103,6 @@ def category(c):
         'entries': parse_posts(category=c)
     }
     if pg['entries']:
-        return render_template('category.html', site=site_info, page=pg)
+        return render_template('category.html', site=C, page=pg)
     else:
         return page_not_found()

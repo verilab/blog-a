@@ -3,9 +3,9 @@
 
 import handler
 
-import config as C
-
 from flask import Flask
+
+from config import config as C
 
 app = Flask(__name__)
 

@@ -36,7 +36,7 @@ This is my first post.
 运行 Web App：
 
 ```py
-python3 app.py
+python app.py (可能需要用 python3 app.py)
 ```
 
 ## 自定义主题
@@ -51,7 +51,7 @@ python3 app.py
 /category/some-category     -> category.html
 ```
 
-渲染 HTML 时传入的变量为 `site` 和 `page`。`site` 中保存网站信息，即 `config.py` 中 site info 部分的配置；`page` 中保存页面相关的信息，具体内容如下：
+渲染 HTML 时传入的变量为 `site` 和 `page`。`site` 中保存网站信息，即 `config.py` 中的配置；`page` 中保存页面相关的信息，具体内容如下：
 
 ```
 # 传入 index.html 的 page 的属性

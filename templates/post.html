@@ -55,6 +55,12 @@
     {{ page.body|safe }}
 </div>
 
+{% if site.duoshuo_enable %}
+{% include 'duoshuo.html' ignore missing %}
+{% endif %}
+
+{% if site.disqus_enable %}
 {% include 'disqus.html' ignore missing %}
+{% endif %}
 
 {% endblock %}
