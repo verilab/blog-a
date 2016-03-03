@@ -1,5 +1,5 @@
 # site info
-title = '''RC's Blog'''
+title = '''RiCE Blog'''
 subtitle = ''
 root_url = 'http://blog.r-c.im'
 author = 'Richard Chien'
