@@ -36,6 +36,7 @@ This is my first post.
 运行 Web App：
 
 ```py
+pip install -r requirements.txt
 python app.py  # 可能需要用 python3 app.py
 ```
 
