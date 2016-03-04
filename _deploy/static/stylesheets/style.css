@@ -1,0 +1,54 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+}
+
+.article {
+    margin-bottom: 60px;
+}
+
+.bottom-link {
+    margin-left: 10px;
+}
+
+.bottom-link-item {
+    background-color: #7e7e7e;
+    color: #777;
+}
+
+.footer {
+    color: #666;
+    height: 40px;
+    width: 100%;;
+    font-size: 12px;
+    text-align: center;
+    position: absolute;
+    bottom: 40px;
+    display: block;
+}
+
+.footer p {
+    display: inline;
+}
+
+@media screen and (min-width: 1000px) {
+    .main {
+        padding: 20px 100px 100px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1000px) {
+    .main {
+        padding: 20px 40px 90px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .main {
+        padding: 10px 20px 80px;
+    }
+}

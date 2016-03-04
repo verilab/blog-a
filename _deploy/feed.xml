@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh_CN">
+  <id>2</id>
+  <title>Blog A</title>
+  <updated>2016-03-04T16:31:47.331914+00:00</updated>
+  <author>
+    <name>Your Name</name>
+    <email>example@example.com</email>
+  </author>
+  <link href="http://example.com" rel="alternate"/>
+  <link href="http://example.com/feed" rel="self"/>
+  <generator version="0.3.2">python-feedgen</generator>
+  <subtitle>Yet another Blog A</subtitle>
+  <entry>
+    <id>/post/2016/03/03/readme</id>
+    <title>README</title>
+    <updated>2016-03-03T00:00:00+08:00</updated>
+    <author>
+      <name>Your Name</name>
+      <email>example@example.com</email>
+    </author>
+    <content>&lt;p&gt;基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x，Demo：&lt;a href="http://demo.blog-a.r-c.im"&gt;http://demo.blog-a.r-c.im&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2&gt;基本用法&lt;/h2&gt;
+
+&lt;h3&gt;网站配置&lt;/h3&gt;
+
+&lt;p&gt;在 &lt;code&gt;config.py&lt;/code&gt; 文件中修改网站配置信息。&lt;/p&gt;
+
+&lt;h3&gt;添加 Post&lt;/h3&gt;
+
+&lt;p&gt;使用 Markdown 书写 Post，放在 &lt;code&gt;posts&lt;/code&gt; 目录，Post 文件名为 &lt;code&gt;yyyy-MM-dd-post-name.md&lt;/code&gt; 或 &lt;code&gt;yyyy-MM-dd-post-name.markdown&lt;/code&gt;，如 &lt;code&gt;2016-03-02-my-first-post.md&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;Markdown 文件开头使用 YAML 标记文章信息，可被识别的信息如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="l l-Scalar l-Scalar-Plain"&gt;title&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;My Post Title (默认从文件名获取, 如&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;2016-03-02-my-first-post.md 的默认 title 为 &amp;quot;My First Post&amp;quot;)&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;layout&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;post (默认为 &amp;quot;post&amp;quot;, 暂不支持其他 layout)&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;url&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;(默认为 &amp;quot;root_url/year/month/day/title&amp;quot;)&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;categories&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;category1&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;category2&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;(默认为空)&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;tags&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;tag1&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;tag2&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;tag3&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;(默认为空)&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;date&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;YYYY-MM-DD HH:MM:SS (默认从文件名获取)&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;updated&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;YYYY-MM-DD HH:MM:SS (默认为空)&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;author&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Richard Chien (默认为 config.py 文件中设置的 author)&lt;/span&gt;
+&lt;span class="l l-Scalar l-Scalar-Plain"&gt;email&lt;/span&gt;&lt;span class="p p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;richardchienthebest@gmail.com (默认为 config.py 文件中设置的 email)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;YAML 标记部分和正文 Markdown 部分用 &lt;code&gt;\n\n&lt;/code&gt; 分隔，如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;title: My Post Title
+tags: [tag1, tag2]
+date: 2016-03-02 20:48
+
+## Title
+This is my first post.&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;设置 Favicon&lt;/h3&gt;
+
+&lt;p&gt;建议使用 &lt;a href="https://realfavicongenerator.net/"&gt;RealFaviconGenerator&lt;/a&gt; 在线生成 Favicon，并覆盖 &lt;code&gt;static&lt;/code&gt; 目录下的 &lt;code&gt;favicons&lt;/code&gt; 目录。&lt;/p&gt;
+
+&lt;p&gt;当然你也可以自行修改 &lt;code&gt;/templates/head.html&lt;/code&gt; 文件中设置 Favicon 的部分。&lt;/p&gt;
+
+&lt;h3&gt;运行 Web App&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="n"&gt;requirements&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;
+&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;  &lt;span class="c1"&gt;# 可能需要用 python3 app.py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2&gt;自定义主题&lt;/h2&gt;
+
+&lt;p&gt;模板使用 Jinja2 引擎，语法参考 &lt;a href="http://jinja.pocoo.org/docs/dev/templates/"&gt;Template Designer Documentation&lt;/a&gt;，模板文件放在 &lt;code&gt;templates&lt;/code&gt; 目录，运行时程序要求确保 &lt;code&gt;templates&lt;/code&gt; 目录下有名为 &lt;code&gt;index.html&lt;/code&gt;、&lt;code&gt;post.html&lt;/code&gt;、&lt;code&gt;tag.html&lt;/code&gt;、&lt;code&gt;category.html&lt;/code&gt;、&lt;code&gt;404.html&lt;/code&gt; 的几个文件，这些模板文件与 URL 的对应关系如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/                           -&amp;gt; index.html
+/page/2                     -&amp;gt; index.html
+/post/2016/03/03/some-title -&amp;gt; post.html
+/tag/some-tag               -&amp;gt; tag.html
+/category/some-category     -&amp;gt; category.html&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;渲染 HTML 时传入的变量为 &lt;code&gt;site&lt;/code&gt; 和 &lt;code&gt;page&lt;/code&gt;。&lt;code&gt;site&lt;/code&gt; 中保存网站信息，即 &lt;code&gt;config.py&lt;/code&gt; 中的配置；&lt;code&gt;page&lt;/code&gt; 中保存页面相关的信息，具体内容如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# 传入 index.html 的 page 的属性
+has_newer: 有更新的 Post
+newer_url: 更新的 Post 列表, 如在 &amp;quot;/page/3&amp;quot; 时, 此属性值为 &amp;quot;/page/2&amp;quot;
+has_older: 有更早的 Post
+older_url: 更早的 Post 列表
+entries: 当前页面需要显示的所有 Post 条目列表，其中每一个列表项的属性即为 Post 文件开头的 YAML 标记的信息, 以及 &amp;quot;body&amp;quot;, 保存已解析成 HTML 的 Markdown 正文内容
+
+# 传入 post.html 的 page 的属性
+# 除了 Post 文件开头的 YAML 标记的信息以及 &amp;quot;body&amp;quot; 外, 还包括下面两个:
+id_key: 代表该 Post 的唯一值, 用于 Disqus 之类评论框
+absolute_url: 链接到该 Post 的绝对路径, 用于 Disqus 之类评论框
+
+# 传入 tag.html 的 page 的属性
+tag: Tag 名称
+entries: 与传入 index.html 的 page 中的 entries 相同
+
+# 传入 category.html 的 page 的属性
+category: Category 名称
+entries: 与传入 index.html 的 page 中的 entries 相同&lt;/code&gt;&lt;/pre&gt;
+</content>
+    <link href="http://example.com/post/2016/03/03/readme" rel="alternate"/>
+    <published>2016-03-03T00:00:00+08:00</published>
+  </entry>
+  <entry>
+    <id>/post/2016/03/03/hello-world</id>
+    <title>Hello, world!</title>
+    <updated>2016-03-03T00:00:00+08:00</updated>
+    <author>
+      <name>Your Name</name>
+      <email>example@example.com</email>
+    </author>
+    <content>&lt;p&gt;Lorem ipsum dolor sit amet, aeque cetero nec te, id detraxit pertinacia accommodare mei, per no facilis accumsan senserit. Solum hendrerit deseruisse eu eum, qui ei utinam munere insolens. Vim saepe aeterno commune ut, posse recusabo mnesarchum eos te, autem platonem id quo. Malis legere urbanitas cum ea, ex vis mazim tincidunt abhorreant. Id reque fastidii complectitur vis.&lt;/p&gt;
+
+&lt;p&gt;No mel dicant doming appetere, adolescens definitionem et pro. Amet dicunt iracundia ex cum, luptatum reformidans ea sed. Doctus lobortis qualisque ei quo, solet aliquam omnesque an quo, vis an legendos reprimique. Ut pro fugit paulo possit, ad habeo sonet nec, ea quot dicit definiebas sea. Stet oporteat praesent vim ad.&lt;/p&gt;
+
+&lt;p&gt;Nec cu vocibus molestie petentium. Ad mentitum copiosae sit, etiam nostro ad duo. Eum an debet comprehensam, quis suavitate vel eu. Te has viderer intellegat, ea cetero inciderint nec. An tractatos posidonium has, quo ignota nonumes temporibus in. Democritum consequuntur vituperatoribus vel ad.&lt;/p&gt;
+
+&lt;p&gt;Ferri quaeque pro cu, pericula maluisset intellegebat has ut, ad his legimus commune nominavi. Pro numquam dolores ad. Cu mutat verear timeam mel, eum id fugit prodesset. Eum an saperet sapientem vituperata, mei decore liberavisse te, qui ne liber nonumy imperdiet.&lt;/p&gt;
+
+&lt;p&gt;Id cum vero brute copiosae, ad usu ipsum singulis delicatissimi. Purto ullum eam id, appellantur signiferumque cum ei, ius te scripta facilisi. Posse verear fastidii ex vel. Erat quidam maiestatis et ius, pro in veri doming repudiandae. Ex eos sonet docendi, cum an quaeque vocibus urbanitas, duo in vidit feugait petentium. Ea quo fuisset liberavisse. No vocent invidunt ius, qui id veniam lobortis salutandi.&lt;/p&gt;
+</content>
+    <link href="http://example.com/post/2016/03/03/hello-world" rel="alternate"/>
+    <published>2016-03-03T00:00:00+08:00</published>
+  </entry>
+</feed>

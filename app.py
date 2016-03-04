@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import sys
 import handler
+import generator
 
 from flask import Flask
 
@@ -51,4 +53,11 @@ def page_not_found(e):
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host=C.host, port=C.port)
+    if len(sys.argv) > 1:
+        if len(sys.argv) > 2:
+            print('Unknown arguments.')
+        elif sys.argv[1] == 'generate':
+            with app.app_context():
+                generator.generate_static_site()
+    else:
+        app.run(debug=False, host=C.host, port=C.port)
