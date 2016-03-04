@@ -4,7 +4,11 @@
 
 ## 基本用法
 
+### 网站配置
+
 在 `config.py` 文件中修改网站配置信息。
+
+### 添加 Post
 
 使用 Markdown 书写 Post，放在 `posts` 目录，Post 文件名为 `yyyy-MM-dd-post-name.md` 或 `yyyy-MM-dd-post-name.markdown`，如 `2016-03-02-my-first-post.md`。
 
@@ -33,7 +37,13 @@ date: 2016-03-02 20:48
 This is my first post.
 ```
 
-运行 Web App：
+### 设置 Favicon
+
+建议使用 [RealFaviconGenerator](https://realfavicongenerator.net/) 在线生成 Favicon，并覆盖 `static` 目录下的 `favicons` 目录。
+
+当然你也可以自行修改 `/templates/head.html` 文件中设置 Favicon 的部分。
+
+### 运行 Web App
 
 ```py
 pip install -r requirements.txt
