@@ -4,6 +4,12 @@
 
 ## 基本用法
 
+### 安装 Python 模块
+
+```py
+pip install -r requirements.txt
+```
+
 ### 网站配置
 
 在 `config.py` 文件中修改网站配置信息。
@@ -46,9 +52,18 @@ This is my first post.
 ### 运行 Web App
 
 ```py
-pip install -r requirements.txt
 python app.py  # 可能需要用 python3 app.py
 ```
+
+### 生成静态网站
+
+可通过 `generate` 子命令生成纯静态网站，如下：
+
+```py
+python app.py generate  # 可能需要用 python3 app.py generate
+```
+
+生成的静态文件在 `_deploy` 目录中。
 
 ## 自定义主题
 
@@ -89,4 +104,3 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 ## TODO
 
 - 支持除 post 以外的 layout
-- 生成静态 HTML 文件
