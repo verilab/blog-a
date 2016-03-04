@@ -126,6 +126,12 @@ def get_posts_list():
 
 
 def default_post_info(file):
+    """
+    Get default post info from post file name
+
+    :param file: post file name with extension
+    :return: default post info (a dict)
+    """
     y, m, d, file_name = os.path.splitext(file)[0].split('-', 3)
     # set default post info
     entry = {
