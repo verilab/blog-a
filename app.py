@@ -28,6 +28,8 @@ def post(year, month, day, post_name):
 
 
 @app.route('/feed', strict_slashes=False)
+@app.route('/feed.xml')
+@app.route('/atom.xml')
 def feed():
     return handler.feed()
 
