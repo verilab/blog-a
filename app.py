@@ -61,5 +61,11 @@ if __name__ == '__main__':
         elif sys.argv[1] == 'generate':
             with app.app_context():
                 generator.generate_static_site()
+        elif sys.argv[1] == 'setup_github_pages':
+            generator.setup_github_pages()
+        elif sys.argv[1] == 'deploy':
+            generator.deploy()
+        elif sys.argv[1] == 'clean':
+            generator.clean()
     else:
         app.run(debug=False, host=C.host, port=C.port)

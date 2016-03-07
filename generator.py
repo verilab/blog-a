@@ -1,7 +1,10 @@
 import os
+import re
 import shutil
 import handler
 import util
+
+from datetime import datetime
 
 from config import config as C
 
@@ -21,8 +24,16 @@ def init():
 
     # remove old static files
     if os.path.exists(_deploy_dir):
-        shutil.rmtree(_deploy_dir)
-    os.mkdir(_deploy_dir)
+        for file in os.listdir(_deploy_dir):
+            if file.startswith('.'):
+                continue
+            path = os.path.join(_deploy_dir, file)
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.remove(path)
+    else:
+        os.mkdir(_deploy_dir)
 
     file_list = util.get_posts_list()
 
@@ -44,9 +55,11 @@ def init():
         if 'tags' in d:
             _tags |= set(util.to_list(d['tags']))
 
+    return True
+
 
 def generate_index():
-    with open(os.path.join(_deploy_dir, 'index.html'), 'w') as f:
+    with open(os.path.join(_deploy_dir, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(handler.index())
 
 
@@ -54,7 +67,7 @@ def generate_post_pages():
     for i in range(1, _post_page_count + 1):
         post_page_dir = os.path.join(_deploy_dir, 'page', str(i))
         os.makedirs(post_page_dir)
-        with open(os.path.join(post_page_dir, 'index.html'), 'w') as f:
+        with open(os.path.join(post_page_dir, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(handler.page(i))
 
 
@@ -62,7 +75,7 @@ def generate_tag_pages():
     for t in _tags:
         tag_page_dir = os.path.join(_deploy_dir, 'tag', t)
         os.makedirs(tag_page_dir)
-        with open(os.path.join(tag_page_dir, 'index.html'), 'w') as f:
+        with open(os.path.join(tag_page_dir, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(handler.tag(t))
 
 
@@ -70,7 +83,7 @@ def generate_category_pages():
     for c in _categories:
         category_page_dir = os.path.join(_deploy_dir, 'category', c)
         os.makedirs(category_page_dir)
-        with open(os.path.join(category_page_dir, 'index.html'), 'w') as f:
+        with open(os.path.join(category_page_dir, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(handler.category(c))
 
 
@@ -79,12 +92,12 @@ def generate_posts():
         y, m, d, name = file.split('-', 3)
         post_dir = os.path.join(_deploy_dir, 'post', y, m, d, name)
         os.makedirs(post_dir)
-        with open(os.path.join(post_dir, 'index.html'), 'w') as f:
+        with open(os.path.join(post_dir, 'index.html'), 'w', encoding='utf-8') as f:
             f.write(handler.post(y, m, d, name))
 
 
 def generate_404():
-    with open(os.path.join(_deploy_dir, '404.html'), 'w') as f:
+    with open(os.path.join(_deploy_dir, '404.html'), 'w', encoding='utf-8') as f:
         f.write(handler.page_not_found()[0])
 
 
@@ -120,13 +133,12 @@ def fix_links():
             dir = './'
 
         lines = []
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             for line in f:
-                lines.append(line.replace('href="/feed', 'href="/feed.xml')
-                             .replace('href="/', 'href="' + dir)
+                lines.append(line.replace('href="/', 'href="' + dir)
                              .replace('src="/', 'src="' + dir))
 
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w', encoding='utf-8') as f:
             f.writelines(lines)
 
 
@@ -166,3 +178,53 @@ def generate_static_site():
     print('Generating feed...', end='')
     generate_feed()
     print('OK')
+
+
+def setup_github_pages():
+    print('Enter the url of your repository')
+    print("(For example, 'git@github.com:your_username/your_username.github.io.git)")
+    print("           or 'https://github.com/your_username/your_username.github.io')")
+    repo_url = input('Repository url: ')
+    while not re.match(r'(?:https://github\.com/|git@github\.com:)([\w-]+)/\1\.github\.(io|com)\.git', repo_url):
+        print('The repository url you entered is invalid, please check your input.')
+        repo_url = input('Repository url: ')
+
+    if not os.path.exists(_deploy_dir):
+        os.mkdir(_deploy_dir)
+
+    run_system_cmd_in_dir(_deploy_dir, 'git init')
+
+    print('Enter your email and name')
+    email = input('Email: ')
+    name = input('Name: ')
+    run_system_cmd_in_dir(_deploy_dir, 'git config user.email "%s"' % email)
+    run_system_cmd_in_dir(_deploy_dir, 'git config user.name "%s"' % name)
+    run_system_cmd_in_dir(_deploy_dir, 'git remote add origin %s' % repo_url)
+
+    print('Setup succeeded.')
+
+
+def run_system_cmd_in_dir(dir, cmd):
+    return os.system('cd %s; %s' % (dir, cmd))
+
+
+def clean():
+    print('Cleaning...', end='')
+    shutil.rmtree(_deploy_dir)
+    print('OK')
+
+
+def deploy():
+    run_system_cmd_in_dir(_deploy_dir, 'git add .')
+
+    if run_system_cmd_in_dir(_deploy_dir, 'git diff --quiet --exit-code') == 0 \
+            and run_system_cmd_in_dir(_deploy_dir, 'git diff --quiet --cached --exit-code') == 0:
+        print('There is no changes to be deployed.')
+        return
+
+    run_system_cmd_in_dir(_deploy_dir, 'git commit -m "Updated on %s"' % datetime.now().strftime('%y-%m-%d %H:%M:%S'))
+    if run_system_cmd_in_dir(_deploy_dir, 'git push origin master') != 0:
+        print('Deploy failed.')
+        return
+
+    print('Deploy succeeded.')

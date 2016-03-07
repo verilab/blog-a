@@ -1,6 +1,6 @@
 # Blog A
 
-基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x，Demo：[http://demo.blog-a.r-c.im](http://demo.blog-a.r-c.im)。
+基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x（下面所有命令中的 `python` 可能需要换成 `python3`），Demo：[http://demo.blog-a.r-c.im](http://demo.blog-a.r-c.im)。
 
 ## 基本用法
 
@@ -52,7 +52,7 @@ This is my first post.
 ### 运行 Web App
 
 ```py
-python app.py  # 可能需要用 python3 app.py
+python app.py
 ```
 
 ### 生成静态网站
@@ -60,10 +60,34 @@ python app.py  # 可能需要用 python3 app.py
 可通过 `generate` 子命令生成纯静态网站，如下：
 
 ```py
-python app.py generate  # 可能需要用 python3 app.py generate
+python app.py generate
 ```
 
 生成的静态文件在 `_deploy` 目录中。
+
+### 部署到 GitHub Pages
+
+支持自动部署到 GitHub Pages。首先在 GitHub 创建一个名为 `username.github.io` 空仓库（`username` 换成你的 GitHub 用户名），然后运行：
+
+```py
+python app.py setup_github_pages
+```
+
+根据提示完成配置，此命令只需在第一次使用时运行。
+
+每次添加了 Post 之后，运行下面命令来生成静态页面：
+
+```py
+python app.py generate
+```
+
+并运行：
+
+```py
+python app.py deploy
+```
+
+将网站的变动部署到 GitHub Pages。
 
 ## 自定义主题
 
@@ -104,4 +128,3 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 ## TODO
 
 - 支持除 post 以外的 layout
-- 自动将生成的静态文件部署到 GitHub Pages
