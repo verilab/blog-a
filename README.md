@@ -128,3 +128,4 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 ## TODO
 
 - 支持除 post 以外的 layout
+- 安装第三方主题
