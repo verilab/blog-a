@@ -17,6 +17,9 @@ _categories = set()
 
 
 def init():
+    """
+    Clear old files and iterate posts and collect basic info
+    """
     global _post_page_count
     global _post_file_names
     global _tags
@@ -59,11 +62,17 @@ def init():
 
 
 def generate_index():
+    """
+    Generate index page
+    """
     with open(os.path.join(_deploy_dir, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(handler.index())
 
 
 def generate_post_pages():
+    """
+    Generate "/page/<int>" pages
+    """
     for i in range(1, _post_page_count + 1):
         post_page_dir = os.path.join(_deploy_dir, 'page', str(i))
         os.makedirs(post_page_dir)
@@ -72,6 +81,9 @@ def generate_post_pages():
 
 
 def generate_tag_pages():
+    """
+    Generate "/tag/<string>" pages
+    """
     for t in _tags:
         tag_page_dir = os.path.join(_deploy_dir, 'tag', t)
         os.makedirs(tag_page_dir)
@@ -80,6 +92,9 @@ def generate_tag_pages():
 
 
 def generate_category_pages():
+    """
+    Generate "/category/<string>" pages
+    """
     for c in _categories:
         category_page_dir = os.path.join(_deploy_dir, 'category', c)
         os.makedirs(category_page_dir)
@@ -88,6 +103,9 @@ def generate_category_pages():
 
 
 def generate_posts():
+    """
+    Generate post pages
+    """
     for file in _post_file_names:
         y, m, d, name = file.split('-', 3)
         post_dir = os.path.join(_deploy_dir, 'post', y, m, d, name)
@@ -97,15 +115,27 @@ def generate_posts():
 
 
 def generate_404():
+    """
+    Generate 404 page
+    """
     with open(os.path.join(_deploy_dir, '404.html'), 'w', encoding='utf-8') as f:
         f.write(handler.page_not_found()[0])
 
 
 def generate_static():
+    """
+    Generate CSS and JavaScript files
+    """
     shutil.copytree('static', os.path.join(_deploy_dir, 'static'))
 
 
 def search_file(s, d):
+    """
+    Search for file recursively
+    :param s: key word
+    :param d: directory to search in
+    :return: list of absolute file paths
+    """
     result = []
     for p in os.listdir(d):
         if os.path.isdir(os.path.join(d, p)):
@@ -118,6 +148,9 @@ def search_file(s, d):
 
 
 def fix_links():
+    """
+    Fix relative paths in links in HTML files
+    """
     for file_path in search_file('.html', _deploy_dir):
         dir = ''
 
@@ -143,11 +176,17 @@ def fix_links():
 
 
 def generate_feed():
+    """
+    Generate feed.xml
+    """
     with open(os.path.join(_deploy_dir, 'feed.xml'), 'wb') as f:
         f.write(handler.feed())
 
 
 def generate_static_site():
+    """
+    Generate whole static site
+    """
     print('Initiating...', end='')
     init()
     print('OK')
@@ -181,6 +220,9 @@ def generate_static_site():
 
 
 def setup_github_pages():
+    """
+    Setup git repository for GitHub Pages
+    """
     print('Enter the url of your repository')
     print("(For example, 'git@github.com:your_username/your_username.github.io.git)")
     print("           or 'https://github.com/your_username/your_username.github.io')")
@@ -192,39 +234,47 @@ def setup_github_pages():
     if not os.path.exists(_deploy_dir):
         os.mkdir(_deploy_dir)
 
-    run_system_cmd_in_dir(_deploy_dir, 'git init')
+    os.chdir(_deploy_dir)
+
+    os.system('git init')
 
     print('Enter your email and name')
     email = input('Email: ')
     name = input('Name: ')
-    run_system_cmd_in_dir(_deploy_dir, 'git config user.email "%s"' % email)
-    run_system_cmd_in_dir(_deploy_dir, 'git config user.name "%s"' % name)
-    run_system_cmd_in_dir(_deploy_dir, 'git remote add origin %s' % repo_url)
+    os.system('git config user.email "%s"' % email)
+    os.system('git config user.name "%s"' % name)
+    os.system('git remote add origin %s' % repo_url)
 
+    os.chdir('../')
     print('Setup succeeded.')
 
 
-def run_system_cmd_in_dir(dir, cmd):
-    return os.system('cd %s; %s' % (dir, cmd))
-
-
 def clean():
+    """
+    Remove the "_deploy" directory
+    """
     print('Cleaning...', end='')
     shutil.rmtree(_deploy_dir)
     print('OK')
 
 
 def deploy():
-    run_system_cmd_in_dir(_deploy_dir, 'git add .')
+    """
+    Push all changes in "_deploy" to remote repository
+    """
+    os.chdir(_deploy_dir)
 
-    if run_system_cmd_in_dir(_deploy_dir, 'git diff --quiet --exit-code') == 0 \
-            and run_system_cmd_in_dir(_deploy_dir, 'git diff --quiet --cached --exit-code') == 0:
+    os.system('git add .')
+
+    if os.system('git diff --quiet --exit-code') == 0 \
+            and os.system('git diff --quiet --cached --exit-code') == 0:
         print('There is no changes to be deployed.')
         return
 
-    run_system_cmd_in_dir(_deploy_dir, 'git commit -m "Updated on %s"' % datetime.now().strftime('%y-%m-%d %H:%M:%S'))
-    if run_system_cmd_in_dir(_deploy_dir, 'git push origin master') != 0:
+    os.system('git commit -m "Updated on %s"' % datetime.now().strftime('%y-%m-%d %H:%M:%S'))
+    if os.system('git push origin master') != 0:
         print('Deploy failed.')
         return
 
+    os.chdir('../')
     print('Deploy succeeded.')
