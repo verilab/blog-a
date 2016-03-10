@@ -146,7 +146,7 @@ This is a simple blog app based on Flask, requiring Python 3.x (you may need to 
 
 ## Get Started
 
-### Install Python Modules
+### Install Python modules
 
 ```py
 pip install -r requirements.txt
@@ -156,7 +156,7 @@ pip install -r requirements.txt
 
 Configure the blog site in `config.py`.
 
-### Add Posts
+### Add posts
 
 Posts should be written in Markdown and placed in `posts` directory. Names of post files are supposed to be in format `yyyy-MM-dd-post-name.md` or `yyyy-MM-dd-post-name.markdown`, for example, `2016-03-02-my-first-post.md`.
 
@@ -185,13 +185,13 @@ date: 2016-03-02 20:48
 This is my first post.
 ```
 
-### Set Favicon
+### Set favicon
 
 It is recommanded to use [RealFaviconGenerator](https://realfavicongenerator.net/) to automatically generate favicon online and replace the `/static/favicons` directory with the generated one.
 
 Alternatively, you can edit `/templates/head.html` to set favicon by yourself.
 
-### Run Web App
+### Run web app
 
 You can run dynamic web app use the command below:
 
@@ -199,7 +199,7 @@ You can run dynamic web app use the command below:
 python app.py
 ```
 
-### Generate Static Site
+### Generate static site
 
 You can use `generate` subcommand to generate static site as well:
 
