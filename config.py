@@ -15,6 +15,7 @@ config = AttrDict(
     disqus_short_name='',
 
     # configuration
+    support_read_more=False,
     entry_count_one_page=0,
     feed_count=10,
     language='zh_CN',

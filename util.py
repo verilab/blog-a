@@ -111,6 +111,11 @@ post_file_regex = re.compile(
     r'(\d{4}|\d{2})-((1[0-2])|(0?[1-9]))-(([12][0-9])|(3[01])|(0?[1-9]))-[\w-]+\.(md|markdown)'
 )
 
+# regex to match the "<!--more-->" (aka "Read More") flag in md file
+more_flag_regex = re.compile(
+    r'<!--\s*more\s*-->'
+)
+
 
 def get_posts_list():
     """
@@ -146,7 +151,7 @@ def default_post_info(file):
     return entry
 
 
-def parse_posts(start=0, count=0, f_list=None, tag=None, category=None):
+def parse_posts(start=0, count=0, f_list=None, tag=None, category=None, cut_by_read_more=False):
     """
     Parse posts in the "posts" directory
 
@@ -155,6 +160,7 @@ def parse_posts(start=0, count=0, f_list=None, tag=None, category=None):
     :param f_list: specific file list
     :param tag: specific tag
     :param category: specific category
+    :param cut_by_read_more: should cut md file by "Read More" flag
     :return: list of parsed post (a list of dict)
     """
     if not f_list:
@@ -215,6 +221,15 @@ def parse_posts(start=0, count=0, f_list=None, tag=None, category=None):
             entry['tags'] = to_list(entry['tags'])
 
         # render markdown body to html
+        entry['read_more'] = cut_by_read_more  # default set to cut_by_read_more
+        if cut_by_read_more:
+            # find the "Read More" flag position and cut it
+            indices = [x.start(0) for x in more_flag_regex.finditer(md)]
+            if indices:
+                md = md[:indices[0]]
+            else:
+                # didn't cut
+                entry['read_more'] = False
         entry['body'] = render_md(md)
 
         entries.append(entry)
@@ -256,7 +271,7 @@ def parse_posts_page(page_id):
         pg['has_older'] = True
         pg['older_url'] = '/'.join(('/page', str(page_id + 1)))
 
-    pg['entries'] = parse_posts(start, count)
+    pg['entries'] = parse_posts(start, count, cut_by_read_more=C.get('support_read_more', False))
 
     return pg
 
