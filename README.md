@@ -187,7 +187,7 @@ date: 2016-03-02 20:48
 This is my first post.
 ```
 
-If need to use "Read More" button and article preview on homepage, you can add a `<!-- more -->` flag at a proper position in the Markdown file. If one of this flag is found, content before the flag will be cut as the preview of the article, else the full content of the article will be previewed. You can turn on or off this function in `config.py` by set the `support_read_more`. (This function is on the premise of your template supporting the "Read More" function)
+If need to use "Read More" button and article preview on homepage, you can add a `<!-- more -->` flag at a proper position in the Markdown file. If one of this flag is found, content before the flag will be cut as the preview of the article, else the full content of the article will be previewed. You can turn on or off this function in `config.py` by setting the `support_read_more`. (This function is on the premise of your template supporting the "Read More" function)
 
 ### Set favicon
 
