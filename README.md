@@ -1,5 +1,7 @@
 # Blog A
 
+[![Build Status](https://travis-ci.org/richardchien/blog-a.svg?branch=master)](https://travis-ci.org/richardchien/blog-a)
+
 [中文](#zh) [English](#en)
 
 <a name="zh">
