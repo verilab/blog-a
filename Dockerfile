@@ -1,6 +1,7 @@
 FROM python:3.5.1
 
 ADD posts posts
+ADD pages pages
 ADD static static
 ADD templates templates
 ADD app.py app.py
