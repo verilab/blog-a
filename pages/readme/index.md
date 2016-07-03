@@ -1,15 +1,10 @@
 title: README
-date: 2016-03-03 23:33:33
-categories: Default
-tags: BlogA
 
 [中文](#zh) [English](#en)
 
 <a name="zh">
 
 基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x（下面所有命令中的 `python` 可能需要换成 `python3`），Demo：[http://demo.blog-a.r-c.im](http://demo.blog-a.r-c.im)。
-
-<!-- more -->
 
 ## 基本用法
 
@@ -31,7 +26,7 @@ Markdown 文件开头使用 YAML 标记文章信息，可被识别的信息如�
 
 ```yaml
 title: My Post Title (默认从文件名获取, 如: "2016-03-02-my-first-post.md" 的默认 title 为 "My First Post")
-layout: post (默认为 "post", 暂不支持其他 layout)
+layout: post (默认为 "post", 程序会在 "templates" 目录下查找相应名称的 HTML 模板文件)
 url: (默认为 "root_url/year/month/day/title")
 categories: [category1, category2] (默认为空)
 tags: [tag1, tag2, tag3] (默认为空)
@@ -53,6 +48,23 @@ This is my first post.
 ```
 
 如果需要在首页的文章列表采用「阅读更多」按钮，也就是截取文章开头一部分作为预览，可以在 Post 文件中 Markdown 正文的适当位置添加 `<!-- more -->` 标记，如果使用了这个标记，程序会将开头到第一个此标记之间的内容作为首页相应条目的预览，如果没有做这个标记，则默认显示全文，此功能可以在 `config.py` 中通过设置 `support_read_more` 属性来开关。（这个功能的前提是你所使用的主题模板支持「阅读更多」功能）
+
+### 添加 Custom Page
+
+在 `pages` 目录添加 Markdown 文件或 HTML 文件（可以在子目录中），比如 `readme.md` 或 `readme/index.md` 或 `readme/index.html`，第一种可以通过 `/readme.html` 来访问，后两种，即内容在子目录下，则可以通过 `/readme/` 或 `/readme/index.html` 来访问。
+
+如果使用 Markdown 文件，则格式类似于书写 Post 时的格式，例如：
+
+```
+title: About
+layout: page (默认为 "page", 程序会在 "templates" 目录下查找相应名称的 HTML 模板文件)
+author: Richard Chien (默认为 config.py 文件中设置的 author)
+email: richardchienthebest@gmail.com (默认为 config.py 文件中设置的 email)
+
+This is an about page.
+```
+
+如果使用 HTML 文件，则直接返回 HTML 的内容。
 
 ### 设置 Favicon
 
@@ -142,8 +154,9 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 
 ## TODO
 
-- 支持除 post 以外的 layout
-- 安装第三方模板
+- [x] 支持 Custom Page
+- [x] 支持除 post 以外的 layout
+- [ ] 安装第三方模板
 
 ---------
 
@@ -171,7 +184,7 @@ Extra properties of a post could be placed at the beginning of the markdown file
 
 ```yaml
 title: My Post Title (derived from post file name by default, for example, default title of "2016-03-02-my-first-post.md" is "My First Post")
-layout: post (default value is "post" and currently other layouts are not supported)
+layout: post (default value is "post" and the app will look for "layout-name.html" in "templates" directory)
 url: (default value is "root_url/year/month/day/title")
 categories: [category1, category2] (default value is none)
 tags: [tag1, tag2, tag3] (default value is none)
@@ -193,6 +206,23 @@ This is my first post.
 ```
 
 If need to use "Read More" button and article preview on homepage, you can add a `<!-- more -->` flag at a proper position in the Markdown file. If one of this flag is found, content before the flag will be cut as the preview of the article, else the full content of the article will be previewed. You can turn on or off this function in `config.py` by setting the `support_read_more`. (This function is on the premise of your template supporting the "Read More" function)
+
+### Add custom pages
+
+Add Markdown or HTML files in `pages` directory (or in its subdirectory), for example `readme.md` or `readme/index.md` or `readme/index.html`, then you can access the custom page through `/readme.html` or `/readme/` separately.
+
+If Markdown is being used, the file should be just like those as posts, for example:
+
+```
+title: About
+layout: page (default value is "page" and the app will look for "layout-name.html" in "templates" directory)
+author: Richard Chien (default value is the author in config.py)
+email: richardchienthebest@gmail.com (default value is the email in config.py)
+
+This is an about page.
+```
+
+If HTML is being used, then the raw content of the HTML file will be directly returned.
 
 ### Set favicon
 
@@ -282,5 +312,6 @@ entries: same as the "page" sent to index.html
 
 ## TODO
 
-- Support layout other than "post"
-- Install third-party templates
+- [x] Support custom page
+- [x] Support layout other than "post"
+- [ ] Install third-party templates

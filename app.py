@@ -44,9 +44,9 @@ def tag(t):
     return handler.tag(t)
 
 
-@app.route('/<string:custom_page_name>', strict_slashes=False)
-def custom_page(custom_page_name):
-    return page_not_found(None)
+@app.route('/<path:custom_page_path>', strict_slashes=True)
+def custom_page(custom_page_path):
+    return handler.custom_page(custom_page_path)
 
 
 @app.errorhandler(404)

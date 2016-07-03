@@ -276,6 +276,48 @@ def parse_posts_page(page_id):
     return pg
 
 
+def default_custom_page_info(file):
+    """
+    Get default custom page info from markdown filename
+
+    :param file: page markdown file name with extension
+    :return: default page info (a dict)
+    """
+    filename = os.path.splitext(file)[0]
+
+    # set default post info
+    entry = {
+        'layout': 'page',
+        'author': C.author,
+        'email': C.email,
+        # default title, url from file name
+        'title': ' '.join(map(lambda w: w.capitalize(), filename.split('-'))),
+    }
+    return entry
+
+
+def parse_custom_page(file_path):
+    """
+    Parse custom page in markdown
+
+    :param file_path: markdown file path
+    :return: parsed custom page (a dict)
+    """
+    page = default_custom_page_info(os.path.basename(file_path))
+
+    yml, md = read_md_file(file_path)
+
+    # get more detailed page info from yaml head
+    page_info = render_yaml(yml)
+    for k, v in page_info.items():
+        page[k] = v
+
+    # render markdown body to html
+    page['body'] = render_md(md)
+
+    return page
+
+
 def timezone_from_str(tz_str):
     """
     Convert a timezone string to a timezone object
@@ -313,3 +355,18 @@ def to_list(item):
     if item is not None and not isinstance(item, list):
         return [item]
     return item
+
+
+def extension_of_markdown_file(file_path_without_ext):
+    """
+    Find markdown file with the specific file path
+
+    :param file_path_without_ext: file path without extension
+    :return: file extension
+    """
+    if os.path.exists(file_path_without_ext + '.md') is not False:
+        return 'md'
+    elif os.path.exists(file_path_without_ext + '.markdown') is not False:
+        return 'markdown'
+    else:
+        return None

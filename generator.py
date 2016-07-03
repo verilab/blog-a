@@ -114,6 +114,33 @@ def generate_posts():
             f.write(handler.post(y, m, d, name))
 
 
+def generate_custom_pages(rel_dir_path='.'):
+    """
+    Generate custom pages
+    """
+    dir_path = os.path.join('pages', rel_dir_path)
+    os.makedirs(os.path.join(_deploy_dir, rel_dir_path), exist_ok=True)
+    for file in os.listdir(dir_path):
+        if file.startswith('.'):
+            # is hidden file
+            continue
+
+        if os.path.isdir(os.path.join(dir_path, file)):
+            generate_custom_pages(os.path.join(rel_dir_path, file))
+            continue
+
+        rel_file_path = os.path.join(rel_dir_path, file)
+        filename, ext = os.path.splitext(rel_file_path)
+        if ext == '.md' or ext == '.markdown':
+            # is markdown file, need render
+            rel_file_path = '.'.join((filename, 'html'))
+            with open(os.path.join(_deploy_dir, rel_file_path), 'w', encoding='utf-8') as f:
+                f.write(handler.custom_page('/'.join(os.path.split(rel_file_path)).replace('./', '')))
+        else:
+            # is common static file, just copy
+            shutil.copy(os.path.join('pages', rel_file_path), os.path.join(_deploy_dir, rel_file_path))
+
+
 def generate_404():
     """
     Generate 404 page
@@ -204,6 +231,9 @@ def generate_static_site():
     print('OK')
     print('Generating posts...', end='')
     generate_posts()
+    print('OK')
+    print('Generating custom pages...', end='')
+    generate_custom_pages()
     print('OK')
     print('Generating 404...', end='')
     generate_404()
