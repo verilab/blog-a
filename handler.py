@@ -1,11 +1,19 @@
 import os
-import re
 
 from feedgen.feed import FeedGenerator
-from flask import render_template, send_file, redirect
-from util import parse_posts, make_abs_url, parse_posts_page, extension_of_markdown_file, parse_custom_page
+from flask import render_template, send_file, redirect, jsonify
 
 from config import config as C
+from util import parse_posts, make_abs_url, parse_posts_page, extension_of_markdown_file, parse_custom_page, \
+    get_categories, get_tags
+
+_mode_api = 'api'
+_mode_web_app = 'web-app'
+
+# make it web app mode as default
+C.mode = C.get('mode', _mode_web_app)
+if C.mode != _mode_api and C.mode != _mode_web_app:
+    raise SyntaxError('Can not recognize mode "%s"' % C.mode)
 
 
 def index():
@@ -20,8 +28,12 @@ def page(page_id):
     Render posts page ('/page/<int:page_id>')
     """
     pg = parse_posts_page(page_id)
+
     if pg['entries'] or page_id == 1:
-        return render_template('index.html', site=C, page=pg)
+        if C.mode == _mode_web_app:
+            return render_template('index.html', site=C, page=pg)
+        else:
+            return jsonify(dict(ok=True, site=C, page=pg))
     else:
         return page_not_found()
 
@@ -42,14 +54,20 @@ def post(year, month, day, name):
     article['id_key'] = file_name
     article['absolute_url'] = make_abs_url(C.root_url, '/'.join(('post', year, month, day, name)))
 
-    return render_template(article['layout'] + '.html', site=C, page=article)
+    if C.mode == _mode_web_app:
+        return render_template(article['layout'] + '.html', site=C, page=article)
+    else:
+        return jsonify(dict(ok=True, site=C, page=article))
 
 
 def page_not_found():
     """
     Render 404 page
     """
-    return render_template('404.html', site=C), 404
+    if C.mode == _mode_web_app:
+        return render_template('404.html', site=C), 404
+    else:
+        return jsonify(dict(ok=False))
 
 
 def feed():
@@ -88,9 +106,19 @@ def tag(t):
         'entries': parse_posts(tag=t)
     }
     if pg['entries']:
-        return render_template('tag.html', site=C, page=pg)
+        if C.mode == _mode_web_app:
+            return render_template('tag.html', site=C, page=pg)
+        else:
+            return jsonify(dict(ok=True, site=C, page=pg))
     else:
         return page_not_found()
+
+
+def tags():
+    if C.mode == _mode_web_app:
+        return page_not_found()
+    else:
+        return jsonify(dict(ok=True, data=get_tags()))
 
 
 def category(c):
@@ -102,18 +130,27 @@ def category(c):
         'entries': parse_posts(category=c)
     }
     if pg['entries']:
-        return render_template('category.html', site=C, page=pg)
+        if C.mode == _mode_web_app:
+            return render_template('category.html', site=C, page=pg)
+        else:
+            return jsonify(dict(ok=True, site=C, page=pg))
     else:
         return page_not_found()
+
+
+def categories():
+    if C.mode == _mode_web_app:
+        return page_not_found()
+    else:
+        return jsonify(dict(ok=True, data=get_categories()))
 
 
 def custom_page(rel_path):
     """
     Render custom page
     """
-    if re.fullmatch('[\-_\./A-Za-z0-9]*', rel_path) is None \
-            or '..' in rel_path or './' in rel_path \
-            or '/.' in rel_path or rel_path.startswith('.')\
+    if '..' in rel_path or './' in rel_path \
+            or '/.' in rel_path or rel_path.startswith('.') \
             or '//' in rel_path:
         # the path is not safe
         return page_not_found()
@@ -147,6 +184,9 @@ def custom_page(rel_path):
         content = parse_custom_page('.'.join((file_path, md_ext)))
         content['id_key'] = rel_path
         content['absolute_url'] = make_abs_url(C.root_url, rel_path)
-        return render_template(content['layout'] + '.html', site=C, page=content)
+        if C.mode == _mode_web_app:
+            return render_template(content['layout'] + '.html', site=C, page=content)
+        else:
+            return jsonify(dict(ok=True, site=C, page=content))
 
     return page_not_found()

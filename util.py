@@ -366,7 +366,31 @@ def extension_of_markdown_file(file_path_without_ext):
     """
     if os.path.exists(file_path_without_ext + '.md') is not False:
         return 'md'
+    elif os.path.exists(file_path_without_ext + '.MD') is not False:
+        return 'MD'
+    elif os.path.exists(file_path_without_ext + '.mdown') is not False:
+        return 'mdown'
     elif os.path.exists(file_path_without_ext + '.markdown') is not False:
         return 'markdown'
     else:
         return None
+
+
+def get_categories():
+    file_list = get_posts_list()
+    category_set = set()
+    for file in file_list:
+        file_path = os.path.join('posts', file)
+        yml_dict = render_yaml(read_md_file_head(file_path))
+        category_set.update(to_list(yml_dict['categories']))
+    return list(category_set)
+
+
+def get_tags():
+    file_list = get_posts_list()
+    tag_set = set()
+    for file in file_list:
+        file_path = os.path.join('posts', file)
+        yml_dict = render_yaml(read_md_file_head(file_path))
+        tag_set.update(to_list(yml_dict['tags']))
+    return list(tag_set)

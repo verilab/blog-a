@@ -39,9 +39,19 @@ def category(c):
     return handler.category(c)
 
 
+@app.route('/categories', strict_slashes=True)
+def categories():
+    return handler.categories()
+
+
 @app.route('/tag/<string:t>', strict_slashes=False)
 def tag(t):
     return handler.tag(t)
+
+
+@app.route('/tags', strict_slashes=True)
+def tags():
+    return handler.tags()
 
 
 @app.route('/<path:custom_page_path>', strict_slashes=True)
