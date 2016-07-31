@@ -7,7 +7,7 @@
 
 <a name="zh">
 
-基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x（下面所有命令中的 `python` 可能需要换成 `python3`），Demo：[http://demo.blog-a.r-c.im](http://demo.blog-a.r-c.im)。
+基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x（下面所有命令中的 `python` 可能需要换成 `python3`），Demo：[http://blog-a.demo.r-c.im](http://blog-a.demo.r-c.im)。
 
 ## 基本用法
 
@@ -165,7 +165,7 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 
 <a name="en">
 
-This is a simple blog app based on Flask, requiring Python 3.x (you may need to use `python3` instead of `python` in all commands below). Demo: [http://demo.blog-a.r-c.im](http://demo.blog-a.r-c.im).
+This is a simple blog app based on Flask, requiring Python 3.x (you may need to use `python3` instead of `python` in all commands below). Demo: [http://blog-a.demo.r-c.im](http://blog-a.demo.r-c.im).
 
 ## Get Started
 
