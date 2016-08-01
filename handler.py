@@ -18,7 +18,9 @@ if C.mode != _mode_api and C.mode != _mode_web_app and C.mode != _mode_mixed:
 
 
 def should_return_json():
-    return C.mode == _mode_api or (C.mode == _mode_mixed and 'application/json' in request.headers.get('Accept', ''))
+    return C.mode == _mode_api \
+           or (C.mode == _mode_mixed
+               and ('application/json' in request.headers.get('Accept', '') or request.args.get('format') == 'json'))
 
 
 def index():
