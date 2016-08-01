@@ -22,7 +22,7 @@ def page(page_id):
     return handler.page(page_id)
 
 
-@app.route('/post/<string:year>/<string:month>/<string:day>/<post_name>')
+@app.route('/post/<string:year>/<string:month>/<string:day>/<post_name>', strict_slashes=False)
 def post(year, month, day, post_name):
     return handler.post(year, month, day, post_name)
 
