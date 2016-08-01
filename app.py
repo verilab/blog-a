@@ -75,7 +75,7 @@ if __name__ == '__main__':
         if len(sys.argv) > 2:
             print('Unknown arguments.')
         elif sys.argv[1] == 'generate':
-            with app.app_context():
+            with app.app_context() and app.test_request_context(''):
                 generator.generate_static_site()
         elif sys.argv[1] == 'setup_github_pages':
             generator.setup_github_pages()
