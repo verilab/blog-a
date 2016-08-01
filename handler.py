@@ -1,7 +1,7 @@
 import os
 
 from feedgen.feed import FeedGenerator
-from flask import render_template, send_file, redirect, jsonify
+from flask import render_template, send_file, redirect, jsonify, request
 
 from config import config as C
 from util import parse_posts, make_abs_url, parse_posts_page, extension_of_markdown_file, parse_custom_page, \
@@ -9,11 +9,16 @@ from util import parse_posts, make_abs_url, parse_posts_page, extension_of_markd
 
 _mode_api = 'api'
 _mode_web_app = 'web-app'
+_mode_mixed = 'mixed'
 
 # make it web app mode as default
 C.mode = C.get('mode', _mode_web_app)
-if C.mode != _mode_api and C.mode != _mode_web_app:
+if C.mode != _mode_api and C.mode != _mode_web_app and C.mode != _mode_mixed:
     raise SyntaxError('Can not recognize mode "%s"' % C.mode)
+
+
+def should_return_json():
+    return C.mode == _mode_api or (C.mode == _mode_mixed and 'application/json' in request.headers.get('Accept', ''))
 
 
 def index():
@@ -30,10 +35,10 @@ def page(page_id):
     pg = parse_posts_page(page_id)
 
     if pg['entries'] or page_id == 1:
-        if C.mode == _mode_web_app:
-            return render_template('index.html', site=C, page=pg)
-        else:
+        if should_return_json():
             return jsonify(dict(ok=True, site=C, page=pg))
+        else:
+            return render_template('index.html', site=C, page=pg)
     else:
         return page_not_found()
 
@@ -54,20 +59,20 @@ def post(year, month, day, name):
     article['id_key'] = file_name
     article['absolute_url'] = make_abs_url(C.root_url, '/'.join(('post', year, month, day, name)))
 
-    if C.mode == _mode_web_app:
-        return render_template(article['layout'] + '.html', site=C, page=article)
-    else:
+    if should_return_json():
         return jsonify(dict(ok=True, site=C, page=article))
+    else:
+        return render_template(article['layout'] + '.html', site=C, page=article)
 
 
 def page_not_found():
     """
     Render 404 page
     """
-    if C.mode == _mode_web_app:
-        return render_template('404.html', site=C), 404
-    else:
+    if should_return_json():
         return jsonify(dict(ok=False))
+    else:
+        return render_template('404.html', site=C), 404
 
 
 def feed():
@@ -106,19 +111,19 @@ def tag(t):
         'entries': parse_posts(tag=t)
     }
     if pg['entries']:
-        if C.mode == _mode_web_app:
-            return render_template('tag.html', site=C, page=pg)
-        else:
+        if should_return_json():
             return jsonify(dict(ok=True, site=C, page=pg))
+        else:
+            return render_template('tag.html', site=C, page=pg)
     else:
         return page_not_found()
 
 
 def tags():
-    if C.mode == _mode_web_app:
-        return page_not_found()
-    else:
+    if should_return_json():
         return jsonify(dict(ok=True, data=get_tags()))
+    else:
+        return page_not_found()
 
 
 def category(c):
@@ -130,19 +135,19 @@ def category(c):
         'entries': parse_posts(category=c)
     }
     if pg['entries']:
-        if C.mode == _mode_web_app:
-            return render_template('category.html', site=C, page=pg)
-        else:
+        if should_return_json():
             return jsonify(dict(ok=True, site=C, page=pg))
+        else:
+            return render_template('category.html', site=C, page=pg)
     else:
         return page_not_found()
 
 
 def categories():
-    if C.mode == _mode_web_app:
-        return page_not_found()
-    else:
+    if should_return_json():
         return jsonify(dict(ok=True, data=get_categories()))
+    else:
+        return page_not_found()
 
 
 def custom_page(rel_path):
@@ -184,9 +189,9 @@ def custom_page(rel_path):
         content = parse_custom_page('.'.join((file_path, md_ext)))
         content['id_key'] = rel_path
         content['absolute_url'] = make_abs_url(C.root_url, rel_path)
-        if C.mode == _mode_web_app:
-            return render_template(content['layout'] + '.html', site=C, page=content)
-        else:
+        if should_return_json():
             return jsonify(dict(ok=True, site=C, page=content))
+        else:
+            return render_template(content['layout'] + '.html', site=C, page=content)
 
     return page_not_found()

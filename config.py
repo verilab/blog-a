@@ -22,5 +22,5 @@ config = AttrDict(
     timezone='UTC+08:00',  # UTC±[hh]:[mm]
     host='0.0.0.0',
     port=8080,
-    mode='web-app',  # 'api' or 'web-app'
+    mode='web-app',  # 'web-app' or 'api' or 'mixed'
 )
