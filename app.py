@@ -64,6 +64,12 @@ def page_not_found(e):
     return handler.page_not_found()
 
 
+@app.after_request
+def allow_access(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
+
+
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         if len(sys.argv) > 2:
