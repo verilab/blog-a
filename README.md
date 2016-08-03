@@ -1,4 +1,4 @@
-# Blog A
+# BlogA
 
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE)
 [![Build Status](https://travis-ci.org/richardchien/blog-a.svg?branch=master)](https://travis-ci.org/richardchien/blog-a)
