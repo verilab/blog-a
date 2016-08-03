@@ -110,7 +110,7 @@ def tag(t):
     """
     pg = {
         'tag': t,
-        'entries': parse_posts(tag=t)
+        'entries': parse_posts(tag=t, cut_by_read_more=C.get('support_read_more', False))
     }
     if pg['entries']:
         if should_return_json():
@@ -134,7 +134,7 @@ def category(c):
     """
     pg = {
         'category': c,
-        'entries': parse_posts(category=c)
+        'entries': parse_posts(category=c, cut_by_read_more=C.get('support_read_more', False))
     }
     if pg['entries']:
         if should_return_json():
