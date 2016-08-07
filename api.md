@@ -123,7 +123,58 @@ Out:
 }
 ```
 
-- `GET /category/<string:c>`, get all posts of a specific category, output is similar to `GET /page/<int:page_id>`.
+- `GET /category/<string:c>`, get all posts of a specific category.
+
+Out:
+
+```json
+{
+  "ok": true,
+  "page": {
+    "archive_type": "category",
+    "archive_name": "Category 1",
+    "entries": [
+      {
+        "author": "Your Name",
+        "body": "<p>content</p>",
+        "categories": [
+          "Category1"
+        ],
+        "date": "Wed, 15 Jun 2016 16:00:00 GMT",
+        "email": "example@example.com",
+        "layout": "post",
+        "read_more": false,
+        "tags": [
+          "Tag1",
+          "Tag2",
+          "Tag3"
+        ],
+        "title": "Post Title",
+        "url": "/post/2016/06/16/test-post"
+      }
+    ]
+  },
+  "site": {
+    "author": "Your Name",
+    "disqus_enable": false,
+    "disqus_short_name": "",
+    "duoshuo_enable": false,
+    "duoshuo_short_name": "",
+    "email": "example@example.com",
+    "entry_count_one_page": 0,
+    "feed_count": 10,
+    "host": "0.0.0.0",
+    "language": "zh_CN",
+    "mode": "api",
+    "port": 8080,
+    "root_url": "http://example.com",
+    "subtitle": "Yet another Blog A",
+    "support_read_more": false,
+    "timezone": "UTC+08:00",
+    "title": "Blog A"
+  }
+}
+```
 
 - `GET /tags`, get tag list.
 
@@ -133,13 +184,19 @@ Out:
 {
   "ok": true,
   "data": [
-    "Tag1",
-    "Tag2"
+    {
+      "name": "Tag1",
+      "count": 10
+    },
+    {
+      "name": "Tag2",
+      "count": 14
+    }
   ]
 }
 ```
 
-- `GET /tag/<string:t>`, get all posts of a specific tag, output is similar to `GET /page/<int:page_id>`.
+- `GET /tag/<string:t>`, get all posts of a specific tag, output is similar to `GET /category/<string:c>`.
 
 ## Custom Pages
 

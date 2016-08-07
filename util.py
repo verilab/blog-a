@@ -376,21 +376,40 @@ def extension_of_markdown_file(file_path_without_ext):
         return None
 
 
-def get_categories():
+def get_labels_of_posts(label_type):
+    """
+    Get labels (tags or categories) of all posts
+
+    :param label_type: 'tags' or 'categories'
+    :return: list of labels with post count
+    """
     file_list = get_posts_list()
-    category_set = set()
+    count_dict = {}
     for file in file_list:
         file_path = os.path.join('posts', file)
         yml_dict = render_yaml(read_md_file_head(file_path))
-        category_set.update(to_list(yml_dict['categories']))
-    return list(category_set)
+        labels = to_list(yml_dict[label_type])
+        for label in labels:
+            count_dict[label] = count_dict.get(label, 0) + 1
+    result = []
+    for key in count_dict.keys():
+        result.append(dict(name=key, count=count_dict[key]))
+    return result
+
+
+def get_categories():
+    """
+    Get all categories
+
+    :return: list of categories with post count
+    """
+    return get_labels_of_posts('categories')
 
 
 def get_tags():
-    file_list = get_posts_list()
-    tag_set = set()
-    for file in file_list:
-        file_path = os.path.join('posts', file)
-        yml_dict = render_yaml(read_md_file_head(file_path))
-        tag_set.update(to_list(yml_dict['tags']))
-    return list(tag_set)
+    """
+    Get all tags
+
+    :return: list of tags with post count
+    """
+    return get_labels_of_posts('tags')

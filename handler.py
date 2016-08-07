@@ -109,7 +109,8 @@ def tag(t):
     Render tag page
     """
     pg = {
-        'tag': t,
+        'archive_type': 'tag',
+        'archive_name': t,
         'entries': parse_posts(tag=t, cut_by_read_more=C.get('support_read_more', False))
     }
     if pg['entries']:
@@ -133,7 +134,8 @@ def category(c):
     Render category page
     """
     pg = {
-        'category': c,
+        'archive_type': 'category',
+        'archive_name': c,
         'entries': parse_posts(category=c, cut_by_read_more=C.get('support_read_more', False))
     }
     if pg['entries']:
