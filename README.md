@@ -157,11 +157,13 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 
 ## API 模式
 
-新增了 API 模式，可以在 `config.py` 中将 `mode` 修改为 `api` 来切换到 API 模式，该模式下，正常访问的 URL 会返回相应的 JSON 数据，并且新增加 `/categories` 和 `/tags` 两个接口来获取所有 Category 和 Tag 列表。
+可以在 `config.py` 中将 `mode` 修改为 `api` 来切换到 API 模式，该模式下，正常访问的 URL 会返回相应的 JSON 数据，并且新增加 `/categories` 和 `/tags` 两个接口来获取所有 Category 和 Tag 列表。
 
 也可以将 `mode` 改为 `mixed` 来开启混合模式，该模式下，在 HTTP 请求头的 Accept 属性中添加 `application/json`，或者在 URL 中添加参数 `format=json`，将会返回 JSON 数据，否则返回正常的 HTML 数据。
 
 具体 API 说明见 [`api.md`](api.md)。
+
+该模式支持通过 JSONP 来进行跨站请求。
 
 ## TODO
 
@@ -328,6 +330,8 @@ You can switch to API mode by setting `mode` in `config.py` to `api`. In this mo
 You can also set `mode` to `mixed` to turn on mixed mode, in which, it will return JSON if `application/json` is added to `Accept` property in HTTP request header or url parameter `format=json` is set, or HTML if not.
 
 See [`api.md`](api.md) for detailed API description.
+
+JSONP is now supported.
 
 ## TODO
 
