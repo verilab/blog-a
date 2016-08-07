@@ -16,7 +16,7 @@ config = AttrDict(
 
     # configuration
     support_read_more=False,
-    entry_count_one_page=0,
+    entry_count_one_page=5,
     feed_count=10,
     language='zh_CN',
     timezone='UTC+08:00',  # UTC±[hh]:[mm]
