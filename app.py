@@ -5,24 +5,46 @@ import sys
 import handler
 import generator
 
-from flask import Flask
+from functools import wraps
+from flask import Flask, redirect, request, current_app
 
 from config import config as C
 
 app = Flask(__name__)
 
 
+def support_jsonp(f):
+    """
+    Wraps JSONified output for JSONP
+    https://gist.github.com/farazdagi/1089923
+    """
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        callback = request.args.get('callback', False)
+        if callback:
+            content = str(callback) + '(' + str(f().data)[1:] + ')'
+            return current_app.response_class(content, mimetype='application/json')
+        else:
+            return f(*args, **kwargs)
+
+    return decorated_function
+
+
 @app.route('/')
+@support_jsonp
 def index():
     return handler.index()
 
 
 @app.route('/page/<int:page_id>', strict_slashes=False)
+@support_jsonp
 def page(page_id):
     return handler.page(page_id)
 
 
 @app.route('/post/<string:year>/<string:month>/<string:day>/<post_name>', strict_slashes=False)
+@support_jsonp
 def post(year, month, day, post_name):
     return handler.post(year, month, day, post_name)
 
@@ -35,31 +57,37 @@ def feed():
 
 
 @app.route('/category/<string:c>', strict_slashes=False)
+@support_jsonp
 def category(c):
     return handler.category(c)
 
 
 @app.route('/categories', strict_slashes=True)
+@support_jsonp
 def categories():
     return handler.categories()
 
 
 @app.route('/tag/<string:t>', strict_slashes=False)
+@support_jsonp
 def tag(t):
     return handler.tag(t)
 
 
 @app.route('/tags', strict_slashes=True)
+@support_jsonp
 def tags():
     return handler.tags()
 
 
 @app.route('/<path:custom_page_path>', strict_slashes=True)
+@support_jsonp
 def custom_page(custom_page_path):
     return handler.custom_page(custom_page_path)
 
 
 @app.errorhandler(404)
+@support_jsonp
 def page_not_found(e):
     return handler.page_not_found()
 
