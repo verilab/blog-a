@@ -6,7 +6,7 @@ import handler
 import generator
 
 from functools import wraps
-from flask import Flask, redirect, request, current_app
+from flask import Flask, request, current_app
 
 from config import config as C
 
@@ -16,14 +16,14 @@ app = Flask(__name__)
 def support_jsonp(f):
     """
     Wraps JSONified output for JSONP
-    https://gist.github.com/farazdagi/1089923
+    https://gist.github.com/richardchien/7b7c2727feb3e8993845a3ce61bad808
     """
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
         callback = request.args.get('callback', False)
         if callback:
-            content = str(callback) + '(' + str(f().data)[1:] + ')'
+            content = str(callback) + '(' + str(f(*args, **kwargs).data)[1:] + ')'
             return current_app.response_class(content, mimetype='application/json')
         else:
             return f(*args, **kwargs)
