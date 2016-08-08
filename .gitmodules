@@ -1,0 +1,8 @@
+[submodule "themes/classic"]
+	path = themes/classic
+	url = https://github.com/BlogTANG/blog-t
+	branch = classic
+[submodule "themes/default"]
+	path = themes/default
+	url = https://github.com/BlogTANG/blog-t
+	branch = default
