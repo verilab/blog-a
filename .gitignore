@@ -3,5 +3,4 @@
 .DS_Store
 
 _deploy
-themes/*
 !themes/default
