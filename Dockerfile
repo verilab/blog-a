@@ -12,6 +12,7 @@ COPY generator.py generator.py
 COPY theme.py theme.py
 COPY requirements.txt requirements.txt
 
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN python app.py apply-theme
 
