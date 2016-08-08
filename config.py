@@ -2,8 +2,8 @@ from attrdict import AttrDict
 
 config = AttrDict(
     # site info
-    title='Blog A',
-    subtitle='Yet another Blog A',
+    title='My Blog',
+    subtitle='Yet another BlogA blog.',
     root_url='http://example.com',
     author='Your Name',
     email='example@example.com',
@@ -15,8 +15,8 @@ config = AttrDict(
     disqus_short_name='',
 
     # configuration
-    theme='classic',  # run 'python app.py apply-theme' after changing this
-    support_read_more=False,
+    theme='default',  # run 'python app.py apply-theme' after changing this
+    support_read_more=True,
     entry_count_one_page=5,
     feed_count=10,
     language='zh_CN',

@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+
+<title>{{ site.title }}</title>
+
+{% endblock %}
+
+{% block body %}
+
+{% for entry in page.entries %}
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      {% for category in entry.categories %}
+      {% if loop.index > 1 %}
+      <span> & </span>
+      {% endif %}
+      <a href="/category/{{ category }}">{{ category }}</a>
+      {% endfor %}
+      <i class="fa fa-fw fa-angle-right"></i>
+    </h3>
+  </div>
+  <div class="panel-body markdown-body">
+    <h1><a href="{{ entry.url }}">{{ entry.title }}</a></h1>
+    <hr>
+    {{ entry.body|safe }}
+    {% if entry.read_more %}
+    <p>……</p>
+    <p><a href="{{ entry.url }}">READ MORE</a></p>
+    {% endif %}
+  </div>
+  <div class="panel-footer">
+    <span><i class="fa fa-fw fa-user"></i>{{ entry.author }}</span>
+    <span><i class="fa fa-fw fa-calendar"></i>{{ entry.date.strftime('%Y.%-m.%-d') }}</span>
+    {% if entry.updated %}
+    <span><i class="fa fa-fw fa-refresh"></i>{{ entry.updated.strftime('%Y.%-m.%-d') }}</span>
+    {% endif %}
+    <span>
+      <i class="fa fa-fw fa-tags"></i>
+      {%- for tag in entry.tags -%}
+      {% if loop.index > 1 %}<span>, </span>{% endif %}<a
+            href="/tag/{{ tag }}">{{ tag }}</a>
+      {%- endfor -%}
+      </span>
+  </div>
+</div>
+{% endfor %}
+
+{% if page.has_newer or page.has_older %}
+<ul class="pager">
+  {% if page.has_older %}
+  <li class="previous">
+    <a href="{{ page.older_url }}">← Older</a>
+  </li>
+  {% endif %}
+  {% if page.has_newer %}
+  <li class="next">
+    <a href="{{ page.newer_url }}">Newer →</a>
+  </li>
+  {% endif %}
+</ul>
+{% endif %}
+
+{% endblock %}

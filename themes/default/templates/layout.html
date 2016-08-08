@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include 'head.html' ignore missing %}
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<div class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12 site-header">
+            {% include 'header.html' ignore missing %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 nav-container">
+            {% include 'navbar.html' ignore missing %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        {% block body %}{% endblock %}
+      </div>
+      <div id="sidebar" class="col-md-4">
+        {% include 'sidebar.html' ignore missing %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' ignore missing %}
+
+<script type="text/javascript">
+  var elems = document.getElementsByTagName('a');
+  for (var i = 0; i < elems.length; i++) {
+    if (elems[i].href.indexOf(document.domain) < 0) {
+      elems[i].target = '_blank';
+    }
+  }
+
+  if (!document.getElementById('fix-style-color')) {
+    var a = document.getElementsByTagName('a')[0];
+    var color = window.getComputedStyle(a).color;
+
+    var css = '.site-header h1 a:hover, .site-header h1 a:focus, h1' +
+            '{ color: ' + color + '; }';
+    style = document.createElement('style');
+    style.id = 'fix-style-color';
+
+    if (style.styleSheet) {
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+
+    document.getElementsByTagName('head')[0].appendChild(style);
+  }
+</script>
+
+</body>
+</html>
