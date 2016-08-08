@@ -75,6 +75,16 @@ This is an about page.
 
 当然你也可以自行修改 `/templates/head.html` 文件中设置 Favicon 的部分。
 
+### 设置主题
+
+在 `config.py` 中设置 `theme` 属性（默认是 `classic`）来指定要使用的主题，然后执行下面命令来应用当前选择的主题：
+
+```py
+python app.py apply-theme
+```
+
+注意这里选择的主题必须在 `themes` 目录下存在，默认有 `classic` 主题，你也可以下载或 clone 第三方主题到这里然后将目录名设置到 `theme`。每次更改 `theme` 属性都需要重新执行上面的命令来应用更改。
+
 ### 运行 Web App
 
 可以直接运行动态 Web App：
@@ -119,9 +129,15 @@ python app.py deploy
 
 将网站的变动部署到 GitHub Pages。
 
-## 自定义模板
+## 自定义主题
 
-模板使用 Jinja2 引擎，语法参考 [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)，模板文件放在 `templates` 目录，运行时程序要求确保 `templates` 目录下有名为 `index.html`、`post.html`、`tag.html`、`category.html`、`404.html` 的几个文件，这些模板文件与 URL 的对应关系如下：
+你可以自己编写主题来适应不同的需求，编写自定义主题需要你对 HTML、CSS、JavaScript、Jinja2 模板有所了解。
+
+首先在 `themes` 目录下创建一个子目录，目录名也就是主题名，然后在里面创建 `templates` 目录，在这个目录里面编写 HTML 模板文件，如果需要引入静态文件，在主题目录下再创建一个 `static` 目录（具体目录结构参考默认的 `classic` 主题），把静态文件放在里面。
+
+在执行 `apply-theme` 命令时，`templates` 和 `static` 目录里的内容都会被软链接到博客根目录的 `templates` 和 `static` 目录中，并且不会清除根目录的 `templates` 和 `static` 中原有的且不冲突的内容，因此你可以在模板中引入公共的静态文件，比如 Favicon。
+
+模板使用 Jinja2 引擎，语法参考 [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)。运行时程序要求确保 `templates` 目录下有名为 `index.html`、`post.html`、`tag.html`、`category.html`、`404.html` 的几个文件，这些模板文件与 URL 的对应关系如下：
 
 ```
 /                           -> index.html
@@ -169,7 +185,7 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 
 - [x] 支持 Custom Page
 - [x] 支持除 post 以外的 layout
-- [ ] 安装第三方模板
+- [x] 安装第三方模板
 
 ---------
 
@@ -243,6 +259,16 @@ It is recommended to use [RealFaviconGenerator](https://realfavicongenerator.net
 
 Alternatively, you can edit `/templates/head.html` to set favicon by yourself.
 
+### Set theme
+
+Set `theme` property (`classic` as default) in `config.py`, and then run the following command to apply it:
+
+```py
+python app.py apply-theme
+```
+
+Note that the `theme` set here must be in the `themes` directory. There is a default theme `classic` there initially. You can download or clone third-party themes there and set one of them to `theme` property to change your theme. Once you change the `theme` property, the command above should be runned to apply the change.
+
 ### Run web app
 
 You can run dynamic web app use the command below:
@@ -285,9 +311,15 @@ Then deploy the changes to GitHub Pages:
 python app.py deploy
 ```
 
-## Custom Templates
+## Custom Theme
 
-Jinja2 engine is used to render templates (see template syntax in [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)). Template files are placed in `templates` directory. Key files and relations between these files and relative URLs are listed below.
+You can write your own them to meet different needs. To write a theme, you should know about HTML, CSS, JavaScript and Jinja2 template engine.
+
+First create a directory in `themes` with name as the name of the theme. Then create a `templates` directory in the theme directory, and write template files in the `templates` directory. If there a need to use static files, you can create a `static` directory in the theme directory and put static files in it. The default `classic` theme can be an example for you.
+
+When running `apply-theme` command, contents in `templates` and `static` will be soft linked to the `templates` and `static` directories in root of the blog, and previously existing files that won't cause conflicts will be preserved. Thus, you can use public static files in the `static` directories in root of the blog, favicon for instance.
+
+Jinja2 engine is used to render templates (see template syntax in [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)). Key files and relations between these files and relative URLs are listed below.
 
 ```
 /                           -> index.html
@@ -337,4 +369,4 @@ JSONP is now supported.
 
 - [x] Support custom page
 - [x] Support layout other than "post"
-- [ ] Install third-party templates
+- [x] Install third-party templates

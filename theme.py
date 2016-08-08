@@ -4,7 +4,7 @@ import os
 def apply_theme(theme):
     theme_dir = os.path.join('themes', theme)
     if not os.path.isdir(theme_dir):
-        print('There seems no "theme" directory existing.')
+        print('There seems no "themes" directory existing.')
         return
 
     template_dir = os.path.join(theme_dir, 'templates')

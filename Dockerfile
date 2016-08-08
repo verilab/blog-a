@@ -3,6 +3,7 @@ FROM python:3.5.1
 COPY posts posts
 COPY pages pages
 COPY static static
+COPY themes themes
 COPY app.py app.py
 COPY config.py config.py
 COPY handler.py handler.py
