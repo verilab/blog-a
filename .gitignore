@@ -4,5 +4,4 @@
 
 _deploy
 themes/*
-!themes/classic
 !themes/default
