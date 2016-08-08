@@ -15,6 +15,7 @@ config = AttrDict(
     disqus_short_name='',
 
     # configuration
+    theme='classic',  # run 'python app.py apply-theme' after changing this
     support_read_more=False,
     entry_count_one_page=5,
     feed_count=10,

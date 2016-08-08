@@ -44,7 +44,8 @@ def init():
     if C.entry_count_one_page == 0:
         _post_page_count = 1
     else:
-        _post_page_count = len(file_list) // C.entry_count_one_page + 1
+        total = len(file_list)
+        _post_page_count = total // C.entry_count_one_page + (1 if total % C.entry_count_one_page != 0 else 0)
 
     for file in file_list:
         # get post file names
@@ -57,8 +58,6 @@ def init():
             _categories |= set(util.to_list(d['categories']))
         if 'tags' in d:
             _tags |= set(util.to_list(d['tags']))
-
-    return True
 
 
 def generate_index():
@@ -153,7 +152,7 @@ def generate_static():
     """
     Generate CSS and JavaScript files
     """
-    shutil.copytree('static', os.path.join(_deploy_dir, 'static'))
+    util.copytree('static', os.path.join(_deploy_dir, 'static'))
 
 
 def search_file(s, d):

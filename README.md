@@ -100,7 +100,7 @@ python app.py generate
 首先在 GitHub 创建一个名为 `username.github.io` 空仓库（`username` 换成你的 GitHub 用户名），然后运行：
 
 ```py
-python app.py setup_github_pages
+python app.py setup-github-pages
 ```
 
 根据提示完成配置，此命令只需在第一次使用时运行。
@@ -268,7 +268,7 @@ Deploying to GitHub Pages is supported.
 Create an empty repository named `username.github.io` (change `username` to your GitHub username) on GitHub, and then run:
 
 ```py
-python app.py setup_github_pages
+python app.py setup-github-pages
 ```
 
 Follow the instructions and set it up. This command is only needed for the first time.

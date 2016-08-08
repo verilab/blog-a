@@ -1,17 +1,18 @@
 FROM python:3.5.1
 
-ADD posts posts
-ADD pages pages
-ADD static static
-ADD templates templates
-ADD app.py app.py
-ADD config.py config.py
-ADD handler.py handler.py
-ADD util.py util.py
-ADD generator.py generator.py
-ADD requirements.txt requirements.txt
+COPY posts posts
+COPY pages pages
+COPY static static
+COPY app.py app.py
+COPY config.py config.py
+COPY handler.py handler.py
+COPY util.py util.py
+COPY generator.py generator.py
+COPY theme.py theme.py
+COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
+RUN python app.py apply-theme
 
 EXPOSE 8080
 CMD ["python", "./app.py"]

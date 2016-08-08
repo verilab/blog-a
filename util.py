@@ -1,5 +1,6 @@
 import os
 import re
+import shutil
 import misaka
 import houdini
 import yaml
@@ -413,3 +414,21 @@ def get_tags():
     :return: list of tags with post count
     """
     return get_labels_of_posts('tags')
+
+
+def copytree(src, dst, symlinks=False, ignore=None):
+    """
+    Correctly copy an entire directory
+
+    :param src: source dir
+    :param dst: destination dir
+    :param symlinks: copy content of symlinks
+    :param ignore: ignore
+    """
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            shutil.copytree(s, d, symlinks, ignore)
+        else:
+            shutil.copy2(s, d)

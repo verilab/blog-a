@@ -4,6 +4,7 @@
 import sys
 import handler
 import generator
+import theme
 
 from functools import wraps
 from flask import Flask, request, current_app
@@ -105,11 +106,15 @@ if __name__ == '__main__':
         elif sys.argv[1] == 'generate':
             with app.app_context() and app.test_request_context(''):
                 generator.generate_static_site()
-        elif sys.argv[1] == 'setup_github_pages':
+        elif sys.argv[1] == 'setup-github-pages':
             generator.setup_github_pages()
         elif sys.argv[1] == 'deploy':
             generator.deploy()
         elif sys.argv[1] == 'clean':
             generator.clean()
+        elif sys.argv[1] == 'apply-theme':
+            theme.apply_theme(C.theme)
+        else:
+            print('Unknown arguments.')
     else:
-        app.run(debug=False, host=C.host, port=C.port)
+        app.run(debug=True, host=C.host, port=C.port)
