@@ -43,6 +43,13 @@
     }
   }
 
+  var navLinks = document.querySelectorAll('.nav-tabs li a');
+  for (i = 0; i < navLinks.length; i++) {
+    if (document.location.href === navLinks[i].href) {
+      navLinks[i].parentElement.classList.add('active');
+    }
+  }
+
   if (!document.getElementById('fix-style-color')) {
     var a = document.getElementsByTagName('a')[0];
     var color = window.getComputedStyle(a).color;
