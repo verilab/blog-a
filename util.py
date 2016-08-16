@@ -100,6 +100,8 @@ def render_md(md_str):
         renderer,
         extensions=('fenced-code',
                     'tables',
+                    'footnotes',
+                    'autolink',
                     'strikethrough',
                     'underline',
                     'highlight',
@@ -109,7 +111,7 @@ def render_md(md_str):
 
 # regex to match the post file with correct format
 post_file_regex = re.compile(
-    r'(\d{4}|\d{2})-((1[0-2])|(0?[1-9]))-(([12][0-9])|(3[01])|(0?[1-9]))-[\w-]+\.(md|markdown)'
+    r'(\d{4}|\d{2})-((1[0-2])|(0?[1-9]))-(([12][0-9])|(3[01])|(0?[1-9]))-[\w-]+\.(md|MD|markdown|mdown)'
 )
 
 # regex to match the "<!--more-->" (aka "Read More") flag in md file

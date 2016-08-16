@@ -186,6 +186,7 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 - [x] 支持 Custom Page
 - [x] 支持除 post 以外的 layout
 - [x] 安装第三方模板
+- [ ] 搜索
 
 ---------
 
@@ -370,3 +371,4 @@ JSONP is now supported.
 - [x] Support custom page
 - [x] Support layout other than "post"
 - [x] Install third-party templates
+- [ ] Search
