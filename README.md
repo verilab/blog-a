@@ -137,14 +137,15 @@ python app.py deploy
 
 在执行 `apply-theme` 命令时，`templates` 和 `static` 目录里的内容都会被软链接到博客根目录的 `templates` 和 `static` 目录中，并且不会清除根目录的 `templates` 和 `static` 中原有的且不冲突的内容，因此你可以在模板中引入公共的静态文件，比如 Favicon。
 
-模板使用 Jinja2 引擎，语法参考 [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)。运行时程序要求确保 `templates` 目录下有名为 `index.html`、`post.html`、`tag.html`、`category.html`、`404.html` 的几个文件，这些模板文件与 URL 的对应关系如下：
+模板使用 Jinja2 引擎，语法参考 [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)。运行时程序要求确保 `templates` 目录下有名为 `index.html`、`post.html`、`tag.html`、`category.html`、`404.html` 的几个文件（如果需要支持搜索功能，还需要有 `search.html`），这些模板文件与 URL 的对应关系如下：
 
 ```
-/                           -> index.html
-/page/2                     -> index.html
-/post/2016/03/03/some-title -> post.html
-/tag/some-tag               -> tag.html
-/category/some-category     -> category.html
+/                                    -> index.html
+/page/2                              -> index.html
+/post/2016/03/03/some-title          -> post.html
+/tag/some-tag                        -> tag.html
+/category/some-category              -> category.html
+/search?q={query-text}[&c=20&p=2]    -> search.html
 ```
 
 渲染 HTML 时传入的变量为 `site` 和 `page`。`site` 中保存网站信息，即 `config.py` 中的配置；`page` 中保存页面相关的信息，具体内容如下：
@@ -162,13 +163,18 @@ entries: 当前页面需要显示的所有 Post 条目列表，其中每一个�
 id_key: 代表该 Post 的唯一值, 用于 Disqus 之类评论框
 absolute_url: 链接到该 Post 的绝对路径, 用于 Disqus 之类评论框
 
-# 传入 tag.html 的 page 的属性
-tag: Tag 名称
+# 传入 tag.html 和 category.html 的 page 的属性
+archive_type: 归档类型 ("tag" 或 "category")
+archive_name: Tag 或 Category 名
 entries: 与传入 index.html 的 page 中的 entries 相同
 
-# 传入 category.html 的 page 的属性
-category: Category 名称
-entries: 与传入 index.html 的 page 中的 entries 相同
+# 传入 search.html 的 page 的属性
+query: 查询的文本内容
+has_next: 有下一页
+next_url: 下一页的地址
+has_prev: 有上一页
+prev_url: 上一页的地址
+entries: 当前搜索结果页面需要显示的所有条目列表，其中每一个列表项的属性即为 Post 或 Custom Page 文件开头的 YAML 标记的信息
 ```
 
 ## API 模式
@@ -186,7 +192,7 @@ entries: 与传入 index.html 的 page 中的 entries 相同
 - [x] 支持 Custom Page
 - [x] 支持除 post 以外的 layout
 - [x] 安装第三方模板
-- [ ] 搜索
+- [x] 搜索
 
 ---------
 
@@ -323,11 +329,12 @@ When running `apply-theme` command, contents in `templates` and `static` will be
 Jinja2 engine is used to render templates (see template syntax in [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)). Key files and relations between these files and relative URLs are listed below.
 
 ```
-/                           -> index.html
-/page/2                     -> index.html
-/post/2016/03/03/some-title -> post.html
-/tag/some-tag               -> tag.html
-/category/some-category     -> category.html
+/                                    -> index.html
+/page/2                              -> index.html
+/post/2016/03/03/some-title          -> post.html
+/tag/some-tag                        -> tag.html
+/category/some-category              -> category.html
+/search?q={query-text}[&c=20&p=2]    -> search.html
 ```
 
 The files above should be seen in `templates` directory, otherwise the app may not work properly.
@@ -347,13 +354,18 @@ entries: list of entries, each of which contains all properties marked at the be
 id_key: the unique key of the post
 absolute_url: the absolute url of the post
 
-# properties in "page" sent to tag.html
-tag: tag name
+# properties in "page" sent to tag.html and category.html
+archive_type: archive type ("tag" or "category")
+archive_name: tag or category name
 entries: same as the "page" sent to index.html
 
-# properties in "page" sent to category.html
-category: category name
-entries: same as the "page" sent to index.html
+# properties in "page" sent to search.html
+query: query text
+has_next: has next page
+next_url: link of next page
+has_prev: has previous page
+prev_url: link of previous page
+entries: list of entries that should be displayed on the current page, each of the entries contains all properties marked at the beginning of the correspond post or custom page file
 ```
 
 ## API Mode
@@ -371,4 +383,4 @@ JSONP is now supported.
 - [x] Support custom page
 - [x] Support layout other than "post"
 - [x] Install third-party templates
-- [ ] Search
+- [x] Search

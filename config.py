@@ -18,6 +18,7 @@ config = AttrDict(
     theme='default',  # run 'python app.py apply-theme' after changing this
     support_read_more=True,
     entry_count_one_page=5,
+    entry_count_one_page_when_search=20,
     feed_count=10,
     language='zh_CN',
     timezone='UTC+08:00',  # UTC±[hh]:[mm]

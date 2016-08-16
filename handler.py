@@ -206,17 +206,19 @@ def search():
     Search for something
     """
     query_text = request.args.get('q')
+    count_per_page = int(request.args.get('c', C.get('entry_count_one_page_when_search', 20)))
+    current_page = int(request.args.get('p', 1))
     if not query_text or query_text == '':
         # invalid query
         return page_not_found()
 
     print(query_text)
-    pg = {
-        'query': query_text,
-        'entries': search_content(query_text)
-    }
+    pg = search_content(query_text, count_per_page, current_page)
 
-    if should_return_json():
-        return jsonify(dict(ok=True, site=C, page=pg))
+    if pg['entries'] or current_page == 1:
+        if should_return_json():
+            return jsonify(dict(ok=True, site=C, page=pg))
+        else:
+            return render_template('search.html', site=C, page=pg)
     else:
-        return render_template('search.html', site=C, page=pg)
+        return page_not_found()

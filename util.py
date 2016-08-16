@@ -441,13 +441,21 @@ def copytree(src, dst, symlinks=False, ignore=None):
             shutil.copy2(s, d)
 
 
-def search_content(query_text):
+def search_content(query_text, count_per_page, current_page):
     """
     Search for posts and pages which contain query_text
 
     :param query_text: text to query
     :return: list of entries
     """
+    pg = {
+        'query': query_text,
+        'entries': [],
+        'has_next': False,
+        'next_url': '',
+        'has_prev': False,
+        'prev_url': ''
+    }
     entries = []
 
     def append_if_needed(entry, yml, md, type):
@@ -513,4 +521,18 @@ def search_content(query_text):
         yml, md = read_md_file(file_path)
         append_if_needed(entry, yml, md, 'page')
 
-    return entries
+    total_count = len(entries)
+    start = count_per_page * (current_page - 1)
+    end = min(count_per_page * current_page, total_count)
+    if start < 0 or start >= total_count or end > total_count or end <= 0:
+        pg['entries'] = None
+    else:
+        pg['entries'] = entries[start:end]
+
+    if start > 0:
+        pg['has_prev'] = True
+        pg['prev_url'] = '/search?q=%s&c=%s&p=%s' % (query_text, count_per_page, current_page - 1)
+    if end < total_count:
+        pg['has_next'] = True
+        pg['next_url'] = '/search?q=%s&c=%s&p=%s' % (query_text, count_per_page, current_page + 1)
+    return pg
