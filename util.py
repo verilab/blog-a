@@ -105,7 +105,8 @@ def render_md(md_str):
                     'strikethrough',
                     'underline',
                     'highlight',
-                    'quote')
+                    'quote',
+                    'superscript')
     )(md_str)
 
 
@@ -187,15 +188,16 @@ def parse_posts(start=0, count=0, f_list=None, tag=None, category=None, cut_by_r
             file_path = os.path.join('posts', file)
             yml_dict = render_yaml(read_md_file_head(file_path))
 
-            # make sure that the tags and categories are lists
-            if 'categories' in yml_dict:
-                yml_dict['categories'] = to_list(yml_dict['categories'])
-            if 'tags' in yml_dict:
-                yml_dict['tags'] = to_list(yml_dict['tags'])
+            if yml_dict:
+                # make sure that the tags and categories are lists
+                if 'categories' in yml_dict:
+                    yml_dict['categories'] = to_list(yml_dict['categories'])
+                if 'tags' in yml_dict:
+                    yml_dict['tags'] = to_list(yml_dict['tags'])
 
-            if ('tags' in yml_dict and tag in yml_dict['tags']) or \
-                    ('categories' in yml_dict and category in yml_dict['categories']):
-                new_file_list.append(file)
+                if ('tags' in yml_dict and tag in yml_dict['tags']) or \
+                        ('categories' in yml_dict and category in yml_dict['categories']):
+                    new_file_list.append(file)
 
         file_list = new_file_list
 
@@ -208,8 +210,9 @@ def parse_posts(start=0, count=0, f_list=None, tag=None, category=None, cut_by_r
 
         # get more detailed post info from yaml head
         post_info = render_yaml(yml)
-        for k, v in post_info.items():
-            entry[k] = v
+        if post_info:
+            for k, v in post_info.items():
+                entry[k] = v
 
         # fix datetime wrongly being a date object or has no tzinfo
         if 'date' in entry:
@@ -294,7 +297,7 @@ def default_custom_page_info(file):
         'author': C.author,
         'email': C.email,
         # default title, url from file name
-        'title': ' '.join(map(lambda w: w.capitalize(), filename.split('-'))),
+        'title': ' '.join(map(lambda w: w.capitalize(), filename.split('-')))
     }
     return entry
 
@@ -312,8 +315,9 @@ def parse_custom_page(file_path):
 
     # get more detailed page info from yaml head
     page_info = render_yaml(yml)
-    for k, v in page_info.items():
-        page[k] = v
+    if page_info:
+        for k, v in page_info.items():
+            page[k] = v
 
     # render markdown body to html
     page['body'] = render_md(md)
@@ -391,9 +395,10 @@ def get_labels_of_posts(label_type):
     for file in file_list:
         file_path = os.path.join('posts', file)
         yml_dict = render_yaml(read_md_file_head(file_path))
-        labels = to_list(yml_dict[label_type])
-        for label in labels:
-            count_dict[label] = count_dict.get(label, 0) + 1
+        if yml_dict:
+            labels = to_list(yml_dict[label_type])
+            for label in labels:
+                count_dict[label] = count_dict.get(label, 0) + 1
     result = []
     for key in count_dict.keys():
         result.append(dict(name=key, count=count_dict[key]))
@@ -434,3 +439,78 @@ def copytree(src, dst, symlinks=False, ignore=None):
             shutil.copytree(s, d, symlinks, ignore)
         else:
             shutil.copy2(s, d)
+
+
+def search_content(query_text):
+    """
+    Search for posts and pages which contain query_text
+
+    :param query_text: text to query
+    :return: list of entries
+    """
+    entries = []
+
+    def append_if_needed(entry, yml, md, type):
+        is_result = False
+
+        # get more detailed info from yaml head
+        info = render_yaml(yml)
+        if info:
+            for k, v in info.items():
+                entry[k] = v
+
+        if query_text.lower() in entry['title'].lower():
+            # title contains query text
+            is_result = True
+        elif query_text.lower() in md.lower():
+            # markdown body contains query text
+            is_result = True
+
+        if is_result:
+            # fix datetime wrongly being a date object or has no tzinfo
+            if 'date' in entry:
+                entry['date'] = fix_datetime(entry['date'])
+            if 'updated' in entry:
+                entry['updated'] = fix_datetime(entry['updated'])
+
+            # fix categories and tags
+            if 'categories' in entry:
+                entry['categories'] = to_list(entry['categories'])
+            if 'tags' in entry:
+                entry['tags'] = to_list(entry['tags'])
+
+            entry['type'] = type
+            entries.append(entry)
+
+    # search for posts
+
+    post_files = get_posts_list()
+
+    for file in post_files:
+        entry = default_post_info(file)
+        yml, md = read_md_file(os.path.join('posts', file))
+        append_if_needed(entry, yml, md, 'post')
+
+    # search for custom pages
+
+    def list_dir(dir):
+        results = []
+        for f in os.listdir(dir):
+            full_rel_path = os.path.join(dir, f)
+            if os.path.isdir(full_rel_path):
+                results += list_dir(full_rel_path)
+            elif f.endswith('.md') or f.endswith('.MD') or f.endswith('.markdown') or f.endswith('.mdown'):
+                results.append(full_rel_path)
+        return results
+
+    custom_page_file_paths = list_dir('pages')
+    for file_path in custom_page_file_paths:
+        entry = default_custom_page_info(os.path.basename(file_path))
+        split_path = os.path.splitext(file_path)[0].split(os.sep)[1:]
+        if split_path[len(split_path) - 1] == 'index':
+            split_path[len(split_path) - 1] = ''
+        entry['url'] = '/' + '/'.join(split_path)
+        yml, md = read_md_file(file_path)
+        append_if_needed(entry, yml, md, 'page')
+
+    return entries

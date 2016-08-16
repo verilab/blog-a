@@ -5,7 +5,7 @@ from flask import render_template, send_file, redirect, jsonify, request
 
 from config import config as C
 from util import parse_posts, make_abs_url, parse_posts_page, extension_of_markdown_file, parse_custom_page, \
-    get_categories, get_tags
+    get_categories, get_tags, search_content
 
 _mode_api = 'api'
 _mode_web_app = 'web-app'
@@ -199,3 +199,24 @@ def custom_page(rel_path):
             return render_template(content['layout'] + '.html', site=C, page=content)
 
     return page_not_found()
+
+
+def search():
+    """
+    Search for something
+    """
+    query_text = request.args.get('q')
+    if not query_text or query_text == '':
+        # invalid query
+        return page_not_found()
+
+    print(query_text)
+    pg = {
+        'query': query_text,
+        'entries': search_content(query_text)
+    }
+
+    if should_return_json():
+        return jsonify(dict(ok=True, site=C, page=pg))
+    else:
+        return render_template('search.html', site=C, page=pg)

@@ -81,6 +81,12 @@ def tags():
     return handler.tags()
 
 
+@app.route('/search', strict_slashes=True)
+@support_jsonp
+def search():
+    return handler.search()
+
+
 @app.route('/<path:custom_page_path>', strict_slashes=True)
 @support_jsonp
 def custom_page(custom_page_path):
