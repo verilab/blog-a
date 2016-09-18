@@ -83,7 +83,7 @@ This is an about page.
 python app.py apply-theme
 ```
 
-注意这里选择的主题必须在 `themes` 目录下存在，默认有 `default` 主题，你也可以下载或 clone 第三方主题到这里然后将目录名设置到 `theme`。每次更改 `theme` 属性都需要重新执行上面的命令来应用更改。
+注意这里选择的主题必须在 `themes` 目录下存在，默认有 `default` 主题，[BlogT](https://github.com/BlogTANG/blog-t) 项目中提供了一些其它主题，你也可以下载或 clone 第三方主题到这里然后将目录名设置到 `theme`。每次更改 `theme` 属性都需要重新执行上面的命令来应用更改。
 
 ### 运行 Web App
 
@@ -187,6 +187,8 @@ entries: 当前搜索结果页面需要显示的所有条目列表，其中每�
 
 该模式支持通过 JSONP 来进行跨站请求。
 
+你可以使用 [BlogNG](https://github.com/BlogTANG/blog-ng) 前端来配合 API 模式使用，将会有较好的单页应用体验。
+
 ## TODO
 
 - [x] 支持 Custom Page
@@ -274,7 +276,7 @@ Set `theme` property (`default` as default) in `config.py`, and then run the fol
 python app.py apply-theme
 ```
 
-Note that the `theme` set here must be in the `themes` directory. There is a default theme `default` there initially. You can download or clone third-party themes there and set one of them to `theme` property to change your theme. Once you change the `theme` property, the command above should be runned to apply the change.
+Note that the `theme` set here must be in the `themes` directory. There is a default theme `default` there initially. You can download or clone third-party themes (or from [BlogT](https://github.com/BlogTANG/blog-t)) there and set one of them to `theme` property to change your theme. Once you change the `theme` property, the command above should be runned to apply the change.
 
 ### Run web app
 
@@ -377,6 +379,8 @@ You can also set `mode` to `mixed` to turn on mixed mode, in which, it will retu
 See [`api.md`](api.md) for detailed API description.
 
 JSONP is now supported.
+
+You can use [BlogNG](https://github.com/BlogTANG/blog-ng) to take the most of this API mode and get excellent experience of the single page web app.
 
 ## TODO
 
