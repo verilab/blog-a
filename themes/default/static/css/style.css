@@ -10,6 +10,10 @@ div {
     word-break: normal;
 }
 
+img {
+    max-width: 100%;
+}
+
 .highlight pre {
     -ms-word-wrap: normal;
     word-wrap: normal;
