@@ -189,12 +189,11 @@ entries: 当前搜索结果页面需要显示的所有条目列表，其中每�
 
 你可以使用 [BlogNG](https://github.com/BlogTANG/blog-ng) 前端来配合 API 模式使用，将会有较好的单页应用体验。
 
-## TODO
+## Webhook 回调
 
-- [x] 支持 Custom Page
-- [x] 支持除 post 以外的 layout
-- [x] 安装第三方模板
-- [x] 搜索
+Webhook 回调功能开启时，可以在 GitHub 等支持 Webhook 的网站，添加 `http://example.com/_webhook`（注意这里 `http://example.com` 换成你自己的地址）作为 Payload URL，从而在事件发生时接收 POST 请求并进行自定义的处理。
+
+要开启 Webhook 回调功能，在 `config.py` 中，将 `webhook_enable` 设置为 True（默认为 False），然后修改 BlogA 目录下 `custom/webhook_handler.py` 中的 `handle(data)` 函数（文件或函数没有则手动创建）来自定义处理脚本。注意这里传入的 `data` 参数类型可能是 JSON 或表单，如果请求头标记了 `application/json` 则尝试读取 JSON，否则尝试读取表单，具体请依照你设置 Webhook 的网站的说明。
 
 ---------
 
@@ -382,9 +381,8 @@ JSONP is now supported.
 
 You can use [BlogNG](https://github.com/BlogTANG/blog-ng) to take the most of this API mode and get excellent experience of the single page web app.
 
-## TODO
+## Webhook Payload
 
-- [x] Support custom page
-- [x] Support layout other than "post"
-- [x] Install third-party templates
-- [x] Search
+When this feature is enabled, you can use `http://example.com/_webhook` (replace `http://example.com` with your own root URL) as the Payload URL on GitHub or other site that supports webhooks, and use a custom script to handle data of the POST request.
+
+To enable this, set `webhook_enable` to True in `config.py`, then modify `handle(data)` function in `custom/webhook_handler.py` (manually create it if not exists) to handle the data. The `data` parameter here can be a JSON or a form, which is determined by `request.json or request.form`.

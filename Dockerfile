@@ -10,6 +10,7 @@ COPY handler.py handler.py
 COPY util.py util.py
 COPY generator.py generator.py
 COPY theme.py theme.py
+COPY custom custom
 COPY requirements.txt requirements.txt
 
 RUN pip install --upgrade pip

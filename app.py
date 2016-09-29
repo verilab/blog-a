@@ -87,6 +87,18 @@ def search():
     return handler.search()
 
 
+if C.get('webhook_enable', False):
+    @app.route('/_webhook', strict_slashes=True, methods=['POST'])
+    def webhook():
+        try:
+            from custom import webhook_handler as h
+            if h.handle:
+                h.handle(request.json or request.form)
+        except ImportError:
+            pass
+        return '', 204
+
+
 @app.route('/<path:custom_page_path>', strict_slashes=True)
 @support_jsonp
 def custom_page(custom_page_path):
