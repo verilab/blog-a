@@ -92,8 +92,8 @@ if C.get('webhook_enable', False):
     def webhook():
         # try:
         from custom import webhook_handler as h
-        if h.handle:
-            h.handle(request.json or request.form)
+        # if h.handle:
+        h.handle(request.json or request.form)
         # except ImportError:
         #     print('There is no webhook handler.')
         return '', 204
