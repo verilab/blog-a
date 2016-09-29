@@ -91,11 +91,11 @@ if C.get('webhook_enable', False):
     @app.route('/_webhook', strict_slashes=True, methods=['POST'])
     def webhook():
         try:
-            from custom import webhook_handler as h
+            from .custom import webhook_handler as h
             if h.handle:
                 h.handle(request.json or request.form)
         except ImportError:
-            pass
+            print('There is no webhook handler.')
         return '', 204
 
 
