@@ -4,8 +4,8 @@ from feedgen.feed import FeedGenerator
 from flask import render_template, send_file, redirect, jsonify, request
 
 from config import config as C
-from util import parse_posts, make_abs_url, parse_posts_page, extension_of_markdown_file, parse_custom_page, \
-    get_categories, get_tags, search_content
+from util import parse_posts, make_abs_url, parse_posts_page, extension_of_markdown_file, \
+    parse_custom_page, get_categories, get_tags, search_content
 
 _mode_api = 'api'
 _mode_web_app = 'web-app'
@@ -20,7 +20,8 @@ if C.mode != _mode_api and C.mode != _mode_web_app and C.mode != _mode_mixed:
 def should_return_json():
     return C.mode == _mode_api \
            or (C.mode == _mode_mixed
-               and ('application/json' in request.headers.get('Accept', '') or request.args.get('format') == 'json'))
+               and ('application/json' in request.headers.get('Accept', '')
+                    or request.args.get('format') == 'json'))
 
 
 def index():

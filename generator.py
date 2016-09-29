@@ -45,7 +45,8 @@ def init():
         _post_page_count = 1
     else:
         total = len(file_list)
-        _post_page_count = total // C.entry_count_one_page + (1 if total % C.entry_count_one_page != 0 else 0)
+        _post_page_count = total // C.entry_count_one_page \
+                           + (1 if total % C.entry_count_one_page != 0 else 0)
 
     for file in file_list:
         # get post file names
@@ -134,10 +135,12 @@ def generate_custom_pages(rel_dir_path='.'):
             # is markdown file, need render
             rel_file_path = '.'.join((filename, 'html'))
             with open(os.path.join(_deploy_dir, rel_file_path), 'w', encoding='utf-8') as f:
-                f.write(handler.custom_page('/'.join(os.path.split(rel_file_path)).replace('./', '')))
+                f.write(
+                    handler.custom_page('/'.join(os.path.split(rel_file_path)).replace('./', '')))
         else:
             # is common static file, just copy
-            shutil.copy(os.path.join('pages', rel_file_path), os.path.join(_deploy_dir, rel_file_path))
+            shutil.copy(os.path.join('pages', rel_file_path),
+                        os.path.join(_deploy_dir, rel_file_path))
 
 
 def generate_404():
@@ -256,7 +259,9 @@ def setup_github_pages():
     print("(For example, 'git@github.com:your_username/your_username.github.io.git)")
     print("           or 'https://github.com/your_username/your_username.github.io')")
     repo_url = input('Repository url: ')
-    while not re.match(r'(?:https://github\.com/|git@github\.com:)([\w-]+)/\1\.github\.(io|com)\.git', repo_url):
+    while not re.match(
+            r'(?:https://github\.com/|git@github\.com:)([\w-]+)/\1\.github\.(io|com)\.git',
+            repo_url):
         print('The repository url you entered is invalid, please check your input.')
         repo_url = input('Repository url: ')
 

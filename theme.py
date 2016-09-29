@@ -9,7 +9,8 @@ def apply_theme(theme):
 
     template_dir = os.path.join(theme_dir, 'templates')
     if not os.path.isdir(template_dir):
-        print('The theme "' + theme + '" is invalid, because there is no "templates" subdirectory in this theme.')
+        print('The theme "'
+              + theme + '" is invalid, because there is no "templates" subdirectory in this theme.')
         return
 
     applied_template_dir = 'templates'

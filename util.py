@@ -507,7 +507,8 @@ def search_content(query_text, count_per_page, current_page):
             full_rel_path = os.path.join(dir, f)
             if os.path.isdir(full_rel_path):
                 results += list_dir(full_rel_path)
-            elif f.endswith('.md') or f.endswith('.MD') or f.endswith('.markdown') or f.endswith('.mdown'):
+            elif f.endswith('.md') or f.endswith('.MD') \
+                    or f.endswith('.markdown') or f.endswith('.mdown'):
                 results.append(full_rel_path)
         return results
 
