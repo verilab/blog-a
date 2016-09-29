@@ -25,5 +25,5 @@ config = AttrDict(
     host='0.0.0.0',
     port=8080,
     mode='mixed',  # 'web-app' or 'api' or 'mixed'
-    webhook_enable=True,
+    webhook_enable=False,
 )
