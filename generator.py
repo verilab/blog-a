@@ -302,7 +302,7 @@ def deploy():
 
     if os.system('git diff --quiet --exit-code') == 0 \
             and os.system('git diff --quiet --cached --exit-code') == 0:
-        print('There is no changes to be deployed.')
+        print('There are no changes to be deployed.')
         return
 
     os.system('git commit -m "Updated on %s"' % datetime.now().strftime('%y-%m-%d %H:%M:%S'))
