@@ -9,7 +9,7 @@
 
 ### 安装 Python 模块
 
-```py
+```sh
 pip install -r requirements.txt
 ```
 
@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 Markdown 文件开头使用 YAML 标记文章信息，可被识别的信息如下：
 
-```yaml
+```yml
 title: My Post Title (默认从文件名获取, 如: "2016-03-02-my-first-post.md" 的默认 title 为 "My First Post")
 layout: post (默认为 "post", 程序会在 "templates" 目录下查找相应名称的 HTML 模板文件)
 url: (默认为 "root_url/year/month/day/title")
@@ -37,7 +37,7 @@ email: richardchienthebest@gmail.com (默认为 config.py 文件中设置的 ema
 
 YAML 标记部分和正文 Markdown 部分用 `\n\n` 分隔，如：
 
-```
+```md
 title: My Post Title
 tags: [tag1, tag2]
 date: 2016-03-02 20:48
@@ -54,7 +54,7 @@ This is my first post.
 
 如果使用 Markdown 文件，则格式类似于书写 Post 时的格式，例如：
 
-```
+```md
 title: About
 layout: page (默认为 "page", 程序会在 "templates" 目录下查找相应名称的 HTML 模板文件)
 author: Richard Chien (默认为 config.py 文件中设置的 author)
@@ -75,7 +75,7 @@ This is an about page.
 
 在 `config.py` 中设置 `theme` 属性（默认是 `default`）来指定要使用的主题，然后执行下面命令来应用当前选择的主题：
 
-```py
+```sh
 python app.py apply-theme
 ```
 
@@ -85,7 +85,7 @@ python app.py apply-theme
 
 可以直接运行动态 Web App：
 
-```py
+```sh
 python app.py
 ```
 
@@ -93,7 +93,7 @@ python app.py
 
 也可通过 `generate` 子命令生成纯静态网站：
 
-```py
+```sh
 python app.py generate
 ```
 
@@ -105,7 +105,7 @@ python app.py generate
 
 首先在 GitHub 创建一个名为 `username.github.io` 空仓库（`username` 换成你的 GitHub 用户名），然后运行：
 
-```py
+```sh
 python app.py setup-github-pages
 ```
 
@@ -113,13 +113,13 @@ python app.py setup-github-pages
 
 每次添加了 Post 之后，运行下面命令来生成静态页面：
 
-```py
+```sh
 python app.py generate
 ```
 
 并运行：
 
-```py
+```sh
 python app.py deploy
 ```
 
@@ -146,7 +146,7 @@ python app.py deploy
 
 渲染 HTML 时传入的变量为 `site` 和 `page`。`site` 中保存网站信息，即 `config.py` 中的配置；`page` 中保存页面相关的信息，具体内容如下：
 
-```
+```yml
 # 传入 index.html 的 page 的属性
 has_newer: 有更新的 Post
 newer_url: 更新的 Post 列表, 如在 "/page/3" 时, 此属性值为 "/page/2"

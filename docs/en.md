@@ -9,7 +9,7 @@ This is a simple blog app based on Flask, requiring Python 3.x (you may need to 
 
 ### Install Python modules
 
-```py
+```sh
 pip install -r requirements.txt
 ```
 
@@ -23,7 +23,7 @@ Posts should be written in Markdown and placed in `posts` directory. Names of po
 
 Extra properties of a post could be placed at the beginning of the markdown file, using the YAML language. The properties which can be identified by the default template are listed below:
 
-```yaml
+```yml
 title: My Post Title (derived from post file name by default, for example, default title of "2016-03-02-my-first-post.md" is "My First Post")
 layout: post (default value is "post" and the app will look for "layout-name.html" in "templates" directory)
 url: (default value is "root_url/year/month/day/title")
@@ -37,7 +37,7 @@ email: richardchienthebest@gmail.com (default value is the email in config.py)
 
 `\n\n` is used to separate YAML and Markdown parts, like:
 
-```
+```md
 title: My Post Title
 tags: [tag1, tag2]
 date: 2016-03-02 20:48
@@ -54,7 +54,7 @@ Add Markdown or HTML files in `pages` directory (or in its subdirectory), for ex
 
 If Markdown is being used, the file should be just like those as posts, for example:
 
-```
+```md
 title: About
 layout: page (default value is "page" and the app will look for "layout-name.html" in "templates" directory)
 author: Richard Chien (default value is the author in config.py)
@@ -75,7 +75,7 @@ Alternatively, you can edit `/templates/head.html` to set favicon by yourself.
 
 Set `theme` property (`default` as default) in `config.py`, and then run the following command to apply it:
 
-```py
+```sh
 python app.py apply-theme
 ```
 
@@ -85,7 +85,7 @@ Note that the `theme` set here must be in the `themes` directory. There is a def
 
 You can run dynamic web app use the command below:
 
-```py
+```sh
 python app.py
 ```
 
@@ -93,7 +93,7 @@ python app.py
 
 You can use `generate` subcommand to generate static site as well:
 
-```py
+```sh
 python app.py generate
 ```
 
@@ -105,7 +105,7 @@ Deploying to GitHub Pages is supported.
 
 Create an empty repository named `username.github.io` (change `username` to your GitHub username) on GitHub, and then run:
 
-```py
+```sh
 python app.py setup-github-pages
 ```
 
@@ -113,13 +113,13 @@ Follow the instructions and set it up. This command is only needed for the first
 
 Each time you added a new post, run the command below to generate static pages.
 
-```py
+```sh
 python app.py generate
 ```
 
 Then deploy the changes to GitHub Pages:
 
-```py
+```sh
 python app.py deploy
 ```
 
@@ -146,7 +146,7 @@ The files above should be seen in `templates` directory, otherwise the app may n
 
 Two variables `site` and `page` are sent to the template files while rendering them. `site` stores all configurations in `config.py`; `page` stores information about the current page, and here is the details:
 
-```
+```yml
 # properties in "page" sent to index.html
 has_newer: there are newer posts besides the current page or not
 newer_url: link of newer posts, for example, value of this property is "/page/2" when the current page is "/page/3"
