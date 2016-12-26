@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)
 [![Build Status](https://travis-ci.org/BlogTANG/blog-a.svg?branch=master)](https://travis-ci.org/BlogTANG/blog-a)
 
-This is a simple blog app based on Flask, requiring Python 3.x (you may need to use `python3` instead of `python` in all commands below). Demo: [http://blog-a.demo.r-c.im](http://blog-a.demo.r-c.im).
+This is a simple blog app based on Flask, requiring Python 3.x (you may need to use `python3` instead of `python` in all commands below). Demo: [https://blogtang.github.io/blog-a-demo/](https://blogtang.github.io/blog-a-demo/).
 
 ## Get Started
 

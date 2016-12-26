@@ -1,13 +1,9 @@
 title: README
 
-[![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE)
+![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)
 [![Build Status](https://travis-ci.org/BlogTANG/blog-a.svg?branch=master)](https://travis-ci.org/BlogTANG/blog-a)
 
-[中文](#zh) [English](#en)
-
-<a name="zh"></a>
-
-基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x（下面所有命令中的 `python` 可能需要换成 `python3`），Demo：[http://blog-a.demo.r-c.im](http://blog-a.demo.r-c.im)。
+基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x（下面所有命令中的 `python` 可能需要换成 `python3`），Demo：[https://blogtang.github.io/blog-a-demo/](https://blogtang.github.io/blog-a-demo/)。
 
 ## 基本用法
 
@@ -83,7 +79,7 @@ This is an about page.
 python app.py apply-theme
 ```
 
-注意这里选择的主题必须在 `themes` 目录下存在，默认有 `default` 主题，你也可以下载或 clone 第三方主题到这里然后将目录名设置到 `theme`。每次更改 `theme` 属性都需要重新执行上面的命令来应用更改。
+注意这里选择的主题必须在 `themes` 目录下存在，默认有 `default` 主题，[BlogT](https://github.com/BlogTANG/blog-t) 项目中提供了一些其它主题，你也可以下载或 clone 第三方主题到这里然后将目录名设置到 `theme`。每次更改 `theme` 属性都需要重新执行上面的命令来应用更改。
 
 ### 运行 Web App
 
@@ -183,204 +179,14 @@ entries: 当前搜索结果页面需要显示的所有条目列表，其中每�
 
 也可以将 `mode` 改为 `mixed` 来开启混合模式，该模式下，在 HTTP 请求头的 Accept 属性中添加 `application/json`，或者在 URL 中添加参数 `format=json`，将会返回 JSON 数据，否则返回正常的 HTML 数据。
 
-具体 API 说明见 [`api.md`](api.md)。
+具体 API 说明见 [API Description](api)。
 
 该模式支持通过 JSONP 来进行跨站请求。
 
-## TODO
+你可以使用 [BlogNG](https://github.com/BlogTANG/blog-ng) 前端来配合 API 模式使用，将会有较好的单页应用体验。
 
-- [x] 支持 Custom Page
-- [x] 支持除 post 以外的 layout
-- [x] 安装第三方模板
-- [x] 搜索
+## Webhook 回调
 
----------
+Webhook 回调功能开启时，可以在 GitHub 等支持 Webhook 的网站，添加 `http://example.com/_webhook`（注意这里 `http://example.com` 换成你自己的地址）作为 Payload URL，从而在事件发生时接收 POST 请求并进行自定义的处理。
 
-<a name="en"></a>
-
-This is a simple blog app based on Flask, requiring Python 3.x (you may need to use `python3` instead of `python` in all commands below). Demo: [http://blog-a.demo.r-c.im](http://blog-a.demo.r-c.im).
-
-## Get Started
-
-### Install Python modules
-
-```py
-pip install -r requirements.txt
-```
-
-### Configuration
-
-Configure the blog site in `config.py`.
-
-### Add posts
-
-Posts should be written in Markdown and placed in `posts` directory. Names of post files are supposed to be in format `yyyy-MM-dd-post-name.md` or `yyyy-MM-dd-post-name.markdown`, for example, `2016-03-02-my-first-post.md`.
-
-Extra properties of a post could be placed at the beginning of the markdown file, using the YAML language. The properties which can be identified by the default template are listed below:
-
-```yaml
-title: My Post Title (derived from post file name by default, for example, default title of "2016-03-02-my-first-post.md" is "My First Post")
-layout: post (default value is "post" and the app will look for "layout-name.html" in "templates" directory)
-url: (default value is "root_url/year/month/day/title")
-categories: [category1, category2] (default value is none)
-tags: [tag1, tag2, tag3] (default value is none)
-date: YYYY-MM-DD HH:MM:SS (derived from post file name by default)
-updated: YYYY-MM-DD HH:MM:SS (default value is none)
-author: Richard Chien (default value is the author in config.py)
-email: richardchienthebest@gmail.com (default value is the email in config.py)
-```
-
-`\n\n` is used to separate YAML and Markdown parts, like:
-
-```
-title: My Post Title
-tags: [tag1, tag2]
-date: 2016-03-02 20:48
-
-## Title
-This is my first post.
-```
-
-If need to use "Read More" button and article preview on homepage, you can add a `<!-- more -->` flag at a proper position in the Markdown file. If one of this flag is found, content before the flag will be cut as the preview of the article, else the full content of the article will be previewed. You can turn on or off this function in `config.py` by setting the `support_read_more`. (This function is on the premise of your template supporting the "Read More" function)
-
-### Add custom pages
-
-Add Markdown or HTML files in `pages` directory (or in its subdirectory), for example `readme.md` or `readme/index.md` or `readme/index.html`, then you can access the custom page through `/readme.html` or `/readme/` separately.
-
-If Markdown is being used, the file should be just like those as posts, for example:
-
-```
-title: About
-layout: page (default value is "page" and the app will look for "layout-name.html" in "templates" directory)
-author: Richard Chien (default value is the author in config.py)
-email: richardchienthebest@gmail.com (default value is the email in config.py)
-
-This is an about page.
-```
-
-If HTML is being used, then the raw content of the HTML file will be directly returned.
-
-### Set favicon
-
-It is recommended to use [RealFaviconGenerator](https://realfavicongenerator.net/) to automatically generate favicon online and replace the `/static/favicons` directory with the generated one.
-
-Alternatively, you can edit `/templates/head.html` to set favicon by yourself.
-
-### Set theme
-
-Set `theme` property (`default` as default) in `config.py`, and then run the following command to apply it:
-
-```py
-python app.py apply-theme
-```
-
-Note that the `theme` set here must be in the `themes` directory. There is a default theme `default` there initially. You can download or clone third-party themes there and set one of them to `theme` property to change your theme. Once you change the `theme` property, the command above should be runned to apply the change.
-
-### Run web app
-
-You can run dynamic web app use the command below:
-
-```py
-python app.py
-```
-
-### Generate static site
-
-You can use `generate` subcommand to generate static site as well:
-
-```py
-python app.py generate
-```
-
-The generated files are in `_deploy` directory.
-
-### Deploy to GitHub Pages
-
-Deploying to GitHub Pages is supported.
-
-Create an empty repository named `username.github.io` (change `username` to your GitHub username) on GitHub, and then run:
-
-```py
-python app.py setup-github-pages
-```
-
-Follow the instructions and set it up. This command is only needed for the first time.
-
-Each time you added a new post, run the command below to generate static pages.
-
-```py
-python app.py generate
-```
-
-Then deploy the changes to GitHub Pages:
-
-```py
-python app.py deploy
-```
-
-## Custom Theme
-
-You can write your own them to meet different needs. To write a theme, you should know about HTML, CSS, JavaScript and Jinja2 template engine.
-
-First create a directory in `themes` with name as the name of the theme. Then create a `templates` directory in the theme directory, and write template files in the `templates` directory. If there a need to use static files, you can create a `static` directory in the theme directory and put static files in it. The theme `default` can be an example for you.
-
-When running `apply-theme` command, contents in `templates` and `static` will be soft linked to the `templates` and `static` directories in root of the blog, and previously existing files that won't cause conflicts will be preserved. Thus, you can use public static files in the `static` directories in root of the blog, favicon for instance.
-
-Jinja2 engine is used to render templates (see template syntax in [Template Designer Documentation](http://jinja.pocoo.org/docs/dev/templates/)). Key files and relations between these files and relative URLs are listed below.
-
-```
-/                                    -> index.html
-/page/2                              -> index.html
-/post/2016/03/03/some-title          -> post.html
-/tag/some-tag                        -> tag.html
-/category/some-category              -> category.html
-/search?q={query-text}[&c=20&p=2]    -> search.html
-```
-
-The files above should be seen in `templates` directory, otherwise the app may not work properly.
-
-Two variables `site` and `page` are sent to the template files while rendering them. `site` stores all configurations in `config.py`; `page` stores information about the current page, and here is the details:
-
-```
-# properties in "page" sent to index.html
-has_newer: there are newer posts besides the current page or not
-newer_url: link of newer posts, for example, value of this property is "/page/2" when the current page is "/page/3"
-has_older: there are older posts besides the current page or not
-older_url: link of older posts
-entries: list of entries, each of which contains all properties marked at the beginning of the correspond post file, a "body" property that stores HTML strings rendered from the preview of Markdown body and a "read_more" property indicates that if there should be a "Read More" button
-
-# properties in "page" sent to post.html
-# Besides all properties marked at the beginning of the correspond post file and the "body", it contains the following two:
-id_key: the unique key of the post
-absolute_url: the absolute url of the post
-
-# properties in "page" sent to tag.html and category.html
-archive_type: archive type ("tag" or "category")
-archive_name: tag or category name
-entries: same as the "page" sent to index.html
-
-# properties in "page" sent to search.html
-query: query text
-has_next: has next page
-next_url: link of next page
-has_prev: has previous page
-prev_url: link of previous page
-entries: list of entries that should be displayed on the current page, each of the entries contains all properties marked at the beginning of the correspond post or custom page file
-```
-
-## API Mode
-
-You can switch to API mode by setting `mode` in `config.py` to `api`. In this mode, the previous URLs in "web-app" mode will return the corresponding JSON data, and two new interfaces, `/categories` and `/tags`, can be used to get category list and tag list separately.
-
-You can also set `mode` to `mixed` to turn on mixed mode, in which, it will return JSON if `application/json` is added to `Accept` property in HTTP request header or url parameter `format=json` is set, or HTML if not.
-
-See [`api.md`](api.md) for detailed API description.
-
-JSONP is now supported.
-
-## TODO
-
-- [x] Support custom page
-- [x] Support layout other than "post"
-- [x] Install third-party templates
-- [x] Search
+要开启 Webhook 回调功能，在 `config.py` 中，将 `webhook_enable` 设置为 True（默认为 False），然后修改 BlogA 目录下 `custom/webhook_handler.py` 中的 `handle(data)` 函数（文件或函数没有则手动创建）来自定义处理脚本。注意这里传入的 `data` 参数类型可能是 JSON 或表单，如果请求头标记了 `application/json` 则尝试读取 JSON，否则尝试读取表单，具体请依照你设置 Webhook 的网站的说明。

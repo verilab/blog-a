@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)
 [![Build Status](https://travis-ci.org/BlogTANG/blog-a.svg?branch=master)](https://travis-ci.org/BlogTANG/blog-a)
 
-基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x（下面所有命令中的 `python` 可能需要换成 `python3`），Demo：[http://blog-a.demo.r-c.im](http://blog-a.demo.r-c.im)。
+基于 Flask 的简易 Python 博客框架，要求 Python 版本 3.x（下面所有命令中的 `python` 可能需要换成 `python3`），Demo：[https://blogtang.github.io/blog-a-demo/](https://blogtang.github.io/blog-a-demo/)。
 
 ## 基本用法
 

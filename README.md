@@ -5,7 +5,7 @@
 
 ## Introduction
 
-This is a simple and clean blog app based on Flask, requiring Python 3.x. Demo: [http://blog-a.demo.r-c.im](http://blog-a.demo.r-c.im).
+This is a simple and clean blog app based on Flask, requiring Python 3.x. Demo: [https://blogtang.github.io/blog-a-demo/](https://blogtang.github.io/blog-a-demo/).
 
 ## Quick Start
 
