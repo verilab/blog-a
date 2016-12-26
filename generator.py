@@ -197,8 +197,9 @@ def fix_links():
         lines = []
         with open(file_path, 'r', encoding='utf-8') as f:
             for line in f:
-                lines.append(line.replace('href="/', 'href="' + dir)
-                             .replace('src="/', 'src="' + dir))
+                line = re.sub('href="\/(?!\/)', 'href="' + dir, line)
+                line = re.sub('src="\/(?!\/)', 'src="' + dir, line)
+                lines.append(line)
 
         with open(file_path, 'w', encoding='utf-8') as f:
             f.writelines(lines)
