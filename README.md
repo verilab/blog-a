@@ -3,6 +3,8 @@
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE)
 [![Build Status](https://travis-ci.org/BlogTANG/blog-a.svg?branch=master)](https://travis-ci.org/BlogTANG/blog-a)
 
+DEPRECATED! Use [veripress/veripress](https://github.com/veripress/veripress) instead.
+
 ## Introduction
 
 This is a simple and clean blog app based on Flask, requiring Python 3.x. Demo: [https://blogtang.github.io/blog-a-demo/](https://blogtang.github.io/blog-a-demo/).
